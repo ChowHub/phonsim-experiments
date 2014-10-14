@@ -1,0 +1,22 @@
+```{r, cache=FALSE, echo=FALSE}
+library(tools)
+library(knitr)
+opts_chunk$set(comment='', echo=FALSE, fig.width=8)
+opts_knit$set(root.dir=tools:::file_path_as_absolute("../"),
+              base.dir=tools:::file_path_as_absolute('./'),
+              self.contained=TRUE)
+```
+
+```{r}
+condlist = list(src.e1="c('Ospan.reg', 'spOspan.noVer')",
+                src.e2="c('R.scramb', 'Ospan.scram.noVer')",
+                src.e3="c('R.pool10', 'R.pool15', 'R.pool30', 'R.pool60', 'R.pool350')",
+                src.e4="c('Rspan.names.long', 'Rspan.names.short')")
+                
+exp = lapply(condlist, function(conds) {
+  condstr = paste(eval(parse(text=conds)), collapse=", ") # For displaying on report
+  paste0('\n\n', condstr, '\n===\n\n', knit_expand('summary/templates/anovas.Rmd'))
+  })
+
+```
+`r knit(text = unlist(exp))`

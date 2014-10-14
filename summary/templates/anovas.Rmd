@@ -1,0 +1,130 @@
+<!----
+Template takes..
+scored.dat: data frame with means over trialtype for each subject
+conds:  conditions to use
+dv:  vector specifying what dv to run the anova for
+--->
+
+```{r}
+opts_knit$set(root.dir=".")
+opts_chunk$set(fig.cap="", fig.width=5, fig.height=3.5, dev='svg')
+```
+
+```{r, message=FALSE}
+#setup
+source('scripts/eta_squared.R')
+library(reshape)
+library(plyr)
+library(ggplot2)
+source('scripts/helper.R')
+
+scored.dat = subset(read.csv('Data/1_scored.csv', colClasses = c(Subject='factor')), 
+                    task %in% {{conds}})
+
+dvs = c('ACC.ser', 'ACC.item')
+```
+
+Descriptives
+----
+
+#### N
+```{r}
+ddply(scored.dat, .(task, trialtype), plyr:::summarize, Participants = length(task))
+```
+
+Residual Check
+----
+#### Scatterplots of Similar vs Dissimilar
+```{r}
+y_lim = ylim(c(0,1))
+
+mdat = melt(scored.dat, id.vars=c('Subject', 'task', 'trialtype'), measure.vars=dvs)
+cdat = cast(mdat, task + Subject + variable ~ trialtype)
+qplot(D, S, data=cdat, facets=variable ~ task) + y_lim  + geom_smooth(method=lm, se=FALSE) + geom_abline(intercept=0, slope=1, color='gray', linetype=1)                                                                                                 
+```
+
+gray line has intercept=0, slope=1. Blue line is regression fit.
+
+#### Averaged across similarity conditions (and z-scored)
+```{r}
+outliers = function(df){
+  z = scale(df$y)
+  df[abs(z) > 3,]
+}
+
+
+cdat$avg = with(cdat, (D + S) / 2)
+p = qplot(task, avg, data=cdat, facets=variable ~ ., position=position_jitter(width=.025, height=0), alpha=.5) + 
+    stat_summary(fun.data='mean_cl_boot', color='red')
+p %+% ddply(cdat, .(task, variable), transform, avg = scale(avg))
+```
+
+
+Effect Plots
+----
+
+Standard errors are between group
+
+```{r}
+y_labels = c(ACC.ser = 'Serial Accuracy', ACC.item = 'Item Accuracy', ACC.ord = 'Order Accuracy')
+trialtype_labels = c(S = 'Similar', D = 'Dissimilar')
+scored.dat$trialtype = relevel(scored.dat$trialtype, ref='S')
+scored.dat$task = revalue(scored.dat$task, pub_conds)
+scale_args = list("Trial Type", breaks = c('S', 'D'), labels = c('Similar', 'Dissimilar'))
+
+if ('R.pool350' %in% scored.dat$task){
+  poolsize = c(10, 15, 30, 60, 350)
+  scored.dat$task = factor(as.integer(gsub('R.pool', "", scored.dat$task)), poolsize)
+
+}
+all_plots = list()
+for (dv in dvs){
+  meanse = ddply(scored.dat, .(task, trialtype), function(df) ps.meanse(df[,dv]))
+  p.fx = p.summary %+% meanse + 
+    do.call(scale_color_manual, c(scale_args, list(values=c("#377eb8", "#e41a1c")))) +
+    do.call(scale_shape_manual, c(scale_args, list(values=c(17, 16)))) +
+    labs(y=y_labels[dv], x='Task')
+  print(p.fx)
+  all_plots[[dv]] = p.fx
+}
+save(all_plots, file=paste0('summary/', scored.dat$folder[1], '_plot_', dv,'.Rdata'))
+```
+
+```{r, results='asis'}
+print.block = function(obj){
+  cat('\n```\n')
+  print(obj)
+  cat('\n```\n')
+}
+scored.dat$Unique_ID = paste(scored.dat$Subject, scored.dat$task)
+for (dv in dvs){
+  cat('\n\n')
+  cat(paste0('\n\n',dv,'\n----\n\n'))
+  formula = as.formula(paste(dv, " ~ task * trialtype + Error(Unique_ID/trialtype)"))
+  fit = aov(formula, data=scored.dat)
+  
+  print.block(summary(fit))
+  
+  cat('\n#### Partial Eta-square\n\n')
+  print.block(eta.2(fit, ret.labels=TRUE))
+  
+  cat('\n\n#### Simple Effects\n\n')
+
+  formula.simple = as.formula(paste(dv, " ~ trialtype + Error(Unique_ID/trialtype)"))
+  fit.simple = d_ply(scored.dat, .(task), function(df){
+    task = unique(df$task)
+    cat(paste0('\n\n#### ', task, '\n'))
+    simple.fx = aov(formula.simple, data=df)
+    print.block(summary(simple.fx))
+    print.block(eta.2(simple.fx, ret.labels=TRUE))
+  })
+  
+  
+  
+  #simple.fx = dlply(scored.dat, .(task), function(df){
+  #  tmp_df = cast(df, task + Subject ~ trialtype, value=dv)
+  #  t.test(tmp_df$S, tmp_df$D, paired=TRUE)
+  #})
+  #print(simple.fx[])
+}
+```
