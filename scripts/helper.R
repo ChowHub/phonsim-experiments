@@ -29,7 +29,7 @@ ps.stat_meanse = function(...){
 #------------------------------------------------------------------------------
 # PLOTS
 #------------------------------------------------------------------------------
-
+library(ggplot2)
 # Mappings
 # scoring titles
 pub_theme = theme(axis.text  = element_text(size=12),
@@ -43,7 +43,6 @@ pub_conds = c('Ospan.scram.noVer'= 'Ospan.scramb',
                  'R.scramb' = 'Rspan.scramb',
                  'Rspan.names.long' = 'long.names', 'Rspan.names.short' = 'short.names')
 
-library(ggplot2)
 d = read.csv('Data/1_scored.csv') #stand in
 h_dodge = position_dodge(width=.05, height=0)
 p.summary = ggplot(d, aes(task, y, ymin=ymin, ymax=ymax, group=trialtype, color=trialtype, shape=trialtype)) +
