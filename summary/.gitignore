@@ -2,5 +2,7 @@
 *
 # except this file
 !.gitignore
+#
+!templates
 # and Rmarkdown
 !*.Rmd

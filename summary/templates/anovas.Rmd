@@ -21,7 +21,7 @@ source('scripts/helper.R')
 scored.dat = subset(read.csv('Data/1_scored.csv', colClasses = c(Subject='factor')), 
                     task %in% {{conds}})
 
-dvs = c('ACC.ser', 'ACC.item')
+dvs = c('ACC.ser', 'ACC.item', 'ACC.order')
 ```
 
 Descriptives
@@ -66,7 +66,7 @@ Effect Plots
 Standard errors are between group
 
 ```{r}
-y_labels = c(ACC.ser = 'Serial Accuracy', ACC.item = 'Item Accuracy', ACC.ord = 'Order Accuracy')
+y_labels = c(ACC.ser = 'Serial Accuracy', ACC.item = 'Item Accuracy', ACC.order = 'Order Accuracy')
 trialtype_labels = c(S = 'Similar', D = 'Dissimilar')
 scored.dat$trialtype = relevel(scored.dat$trialtype, ref='S')
 scored.dat$task = revalue(scored.dat$task, pub_conds)

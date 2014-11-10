@@ -27,12 +27,27 @@ dat = ddply(dat, .(Subject, task, trialnum, trialtype), transform,
             ACC.item=TBR %in% resp[resp != ""])
 dat$ACC.blank = dat$TBR != "" & dat$resp == ""
 dat$ACC.seqerr = dat$ACC.item & !dat$ACC.ser
-  #TODO PLI
+
+# Prior list intrustions
+is.pli = function(ii, TBR, resp, trialnum){
+  crnt.trial = trialnum[ii]
+  (crnt.trial != min(trialnum)) & # not first trial
+    (resp[ii] != "") &            # not blank response
+    (resp[ii] %in% TBR[trialnum < crnt.trial]) # response is TBR for prev trial
+}
+
+dat = ddply(dat, .(Subject, task), transform, 
+            ACC.pli = sapply(1:length(TBR), is.pli, TBR=TBR, resp=resp, trialnum=trialnum)
+)
 
 # Aggregate across various factors
 meanit = colwise(mean, .cols=grep('ACC', names(dat), value=TRUE))
 scored.dat   = ddply(dat, .(Subject, task, folder, trialtype), meanit)             # across trials x trialtype, 2 rows per sub
 scored.curve = ddply(dat, .(Subject, task, folder, trialtype, triallen), meanit)   # recall curves (acros trials x trialtype x triallen)
+
+# Order Scoring (ratio of serial to item recall)
+scored.dat$ACC.order = scored.dat$ACC.ser / scored.dat$ACC.item
+scored.curve$ACC.order = scored.dat$ACC.ser / scored.dat$ACC.item
 
 #Write data
 write.csv(scored.dat, file='Data/1_scored.csv')
