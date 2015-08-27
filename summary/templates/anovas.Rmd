@@ -1,8 +1,6 @@
 <!----
 Template takes..
-scored.dat: data frame with means over trialtype for each subject
-conds:  conditions to use
-dv:  vector specifying what dv to run the anova for
+conds:  conditions to use (done using mustache syntax)
 --->
 
 ```{r}
@@ -65,29 +63,38 @@ Effect Plots
 
 Standard errors are between group
 
-```{r}
-y_labels = c(ACC.ser = 'Serial Accuracy', ACC.item = 'Item Accuracy', ACC.order = 'Order Accuracy')
+```{r, cache=FALSE}
+y_labels = c(ACC.ser = 'Serial Recall', ACC.item = 'Item Recall', ACC.order = 'Order Accuracy')
 trialtype_labels = c(S = 'Similar', D = 'Dissimilar')
-scored.dat$trialtype = relevel(scored.dat$trialtype, ref='S')
-scored.dat$task = revalue(scored.dat$task, pub_conds)
 scale_args = list("Trial Type", breaks = c('S', 'D'), labels = c('Similar', 'Dissimilar'))
 
-if ('R.pool350' %in% scored.dat$task){
-  poolsize = c(10, 15, 30, 60, 350)
-  scored.dat$task = factor(as.integer(gsub('R.pool', "", scored.dat$task)), poolsize)
-
+# Experiment specific plotting components
+xlabel = 'Task'
+for (task in names(xlabels)){
+    # xlabels comes from helper.R TODO: reduce speghetti string..
+    if (task %in% scored.dat$task) xlabel = xlabels[task]
 }
+
+scored.dat$trialtype = relevel(scored.dat$trialtype, ref='S')
+scored.dat$task = revalue(scored.dat$task, pub_conds)  # pub_conds comes from helper.R
+
+if (350 %in% scored.dat$task){
+  poolsize = as.character(c(10, 15, 30, 60, 350))
+  scored.dat$task = factor(scored.dat$task, poolsize)
+}
+
+# Plots
 all_plots = list()
 for (dv in dvs){
   meanse = ddply(scored.dat, .(task, trialtype), function(df) ps.meanse(df[,dv]))
   p.fx = p.summary %+% meanse + 
     do.call(scale_color_manual, c(scale_args, list(values=c("#377eb8", "#e41a1c")))) +
-    do.call(scale_shape_manual, c(scale_args, list(values=c(17, 16)))) +
-    labs(y=y_labels[dv], x='Task')
+    do.call(scale_shape_manual, c(scale_args, list(values=c(1, 2)))) +
+    labs(y=y_labels[dv], x=xlabel)
   print(p.fx)
   all_plots[[dv]] = p.fx
 }
-save(all_plots, file=paste0('summary/', scored.dat$folder[1], '_plot_', dv,'.Rdata'))
+save(all_plots, file=paste0('summary/', scored.dat$folder[1], '_plots', '.Rdata'))
 ```
 
 ```{r, results='asis'}

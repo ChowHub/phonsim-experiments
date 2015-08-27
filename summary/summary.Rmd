@@ -7,7 +7,7 @@ opts_knit$set(root.dir=tools:::file_path_as_absolute("../"),
               self.contained=TRUE)
 ```
 
-```{r}
+```{r cache=FALSE}
 condlist = list(src.e1="c('Ospan.reg', 'spOspan.noVer')",
                 src.e2="c('R.scramb', 'Ospan.scram.noVer')",
                 src.e3="c('R.pool10', 'R.pool15', 'R.pool30', 'R.pool60', 'R.pool350')",
