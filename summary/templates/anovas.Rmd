@@ -18,7 +18,7 @@ library(ggplot2)
 source('scripts/helper.R')
 
 scored.dat = subset(read.csv('Data/1_scored.csv', colClasses = c(Subject='factor')), 
-                    task %in% c('Rspan.names.long', 'Rspan.names.short'))
+                    task %in% {{conds}})
 
 dvs = c('ACC.ser', 'ACC.item', 'ACC.order')
 ```

@@ -8,7 +8,8 @@ library(ggplot2)
 library(lme4)
 library(reshape)
 
-# Read in data
+#' Read in data
+#+ data, echo=TRUE
 all.dat = read.csv('data/1_scored.csv')
 all.dat$Subject = factor(all.dat$Subject)
 
