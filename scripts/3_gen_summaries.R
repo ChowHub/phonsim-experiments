@@ -2,7 +2,6 @@
 setwd('summary')
 library(pander)
 library(knitr)
-name = "summary"
-knit(paste0(name, ".Rmd"), encoding = "utf-8")
-Pandoc.brew(file = paste0(name, ".md"), output = name, convert = "html")
+source('create_summary.R')
+Pandoc.brew(file = 'summary.md', output = 'summary.html', convert = "html")
 setwd('..')
