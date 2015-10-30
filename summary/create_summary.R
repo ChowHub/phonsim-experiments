@@ -16,7 +16,7 @@ knit(text = unlist(exp), output="summary.md")
 Pandoc.brew(file = 'summary.md', output = 'summary.html', convert = "html")
 
 # Report for MLM
-knit2html(spin('../scripts/5_mlm.R'))
+knit2html(spin('../scripts/3_mlm.R'))
 
 # Set back knitr defaults
 opts_knit$restore()
