@@ -1,5 +1,5 @@
 library(plyr)
-source('scripts/helper.R')
+helper = (function(){source('scripts/helper.R', local = tmp<-new.env()); tmp})() #source in IIFE
 # Load data
 all.dat = read.csv('data/scored_all.csv', colClasses=c(TBR='character', resp='character'))
 all.dat$Subject = factor(all.dat$Subject)
@@ -19,7 +19,7 @@ levels(dat$task) = c(levels(dat$task), paste0('R.pool', unique(subcond$poolsize)
 dat[indx.pool, 'task'] = paste0('R.pool', subcond[indx.table, 'poolsize'])
 
 # Get trial lengths
-dat = ddply(dat, .(Subject, task, trialtype, trialnum), transform, triallen = max(inpos))
+dat = ddply(dat, .(Subject, task, trialtype, trialnum), transform, triallen = max(inpos, na.rm=TRUE))
 
 # Score Serial and Item recall
 dat$ACC.ser = dat$resp != "" & dat$TBR == dat$resp
@@ -27,6 +27,9 @@ dat = ddply(dat, .(Subject, task, trialnum, trialtype), transform,
             ACC.item=TBR %in% resp[resp != ""])
 dat$ACC.blank = dat$TBR != "" & dat$resp == ""
 dat$ACC.seqerr = dat$ACC.item & !dat$ACC.ser
+dat = ddply(dat, .(Subject, task, trialnum, trialtype), transform,
+            ACC.trans= match(TBR, resp))
+dat$ACC.possible = !is.na(dat$inpos)
 
 # Prior list intrustions
 is.pli = function(ii, TBR, resp, trialnum){
@@ -41,9 +44,18 @@ dat = ddply(dat, .(Subject, task), transform,
 )
 
 # Aggregate across various factors
-meanit = colwise(mean, .cols=grep('ACC', names(dat), value=TRUE))
-scored.dat   = ddply(dat, .(Subject, task, folder, trialtype), meanit)             # across trials x trialtype, 2 rows per sub
-scored.curve = ddply(dat, .(Subject, task, folder, trialtype, triallen), meanit)   # recall curves (acros trials x trialtype x triallen)
+
+propAcc = colwise(function(acc, possible){
+  sum(acc) / sum(possible)
+  }, 
+  .cols=grep('ACC', names(dat), value=TRUE)
+)
+
+propAccCols = function(df){
+  propAcc(df, df$ACC.possible)
+}
+scored.dat   = ddply(dat, .(Subject, task, folder, trialtype), propAccCols)             # across trials x trialtype, 2 rows per sub
+scored.curve = ddply(dat, .(Subject, task, folder, trialtype, triallen), propAccCols)   # recall curves (acros trials x trialtype x triallen)
 
 # Order Scoring (ratio of serial to item recall)
 scored.dat$ACC.order = scored.dat$ACC.ser / scored.dat$ACC.item
@@ -53,4 +65,4 @@ scored.curve$ACC.order = scored.curve$ACC.ser / scored.curve$ACC.item
 write.csv(scored.dat, file='data/1_scored.csv')
 write.csv(scored.curve, file='data/1_scored_curve.csv')
 
-ps.getdiff(scored.dat, 'ACC.ser')
+#helper$ps.getdiff(scored.dat, 'ACC.ser')
