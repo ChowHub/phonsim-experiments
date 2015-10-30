@@ -1,14 +1,23 @@
+# Misc --------------------------
+# Vim swap files
+*.swp
+
+# Mac hidden file
+.DS_Store
+
+# R and Python ------------------
 # History files
 .Rhistory
+
+.RData
+
+.Rapp.history
 
 # Example code in package build process
 *-Ex.R
 
 # RStudio files
 .Rproj.user/
-
-# Mac Specific
-.DS_Store
 
 # Python
 *.pyc
