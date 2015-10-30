@@ -47,10 +47,10 @@ scored.curve = ddply(dat, .(Subject, task, folder, trialtype, triallen), meanit)
 
 # Order Scoring (ratio of serial to item recall)
 scored.dat$ACC.order = scored.dat$ACC.ser / scored.dat$ACC.item
-scored.curve$ACC.order = scored.dat$ACC.ser / scored.dat$ACC.item
+scored.curve$ACC.order = scored.curve$ACC.ser / scored.curve$ACC.item
 
 #Write data
-write.csv(scored.dat, file='Data/1_scored.csv')
-write.csv(scored.curve, file='Data/1_scored_curve.csv')
+write.csv(scored.dat, file='data/1_scored.csv')
+write.csv(scored.curve, file='data/1_scored_curve.csv')
 
 ps.getdiff(scored.dat, 'ACC.ser')
