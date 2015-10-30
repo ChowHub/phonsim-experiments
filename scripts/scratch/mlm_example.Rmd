@@ -1,0 +1,112 @@
+---
+title: "Multilevel example"
+author: "Michael Chow"
+date: "October 15, 2014"
+output: html_document
+---
+```{r}
+library(knitr)
+opts_chunk$set(warning=FALSE, message=FALSE)
+```
+
+Setup
+-----
+```{r setup}
+library(plyr)
+library(ggplot2)
+library(lme4)
+library(reshape)
+all.dat = read.csv('../data/1_scored.csv')
+all.dat$Subject = factor(all.dat$Subject)
+#dat = subset(all.dat, !task %in% c('Ospan.reg','spOspan.noVer', 'Ospan.scram.noVer', 'Rspan.names.long', 'Rspan.names#.short'))
+dat = subset(all.dat, !task %in% 'Ospan.reg')
+low_int = c('spOspan.noVer', 'Ospan.scram.noVer', 'Rspan.names.long', 'Rspan.names.short', 'Ospan.reg')
+dat$interference = ifelse(dat$task %in% low_int, 'low', 'high')
+dat$subid = paste(dat$task, dat$Subject)
+dat.sub = dat
+dat.sub$gain = ifelse(dat$trialtype=='D', 0, 1)
+meanse = ddply(dat, .(task, trialtype, interference), plyr:::summarize, m  = mean(ACC.ser),
+                                                   se = sqrt(var(ACC.ser) / length(ACC.ser))
+               )
+
+meanse = meanse[order(meanse$interference),]
+meanse$task = factor(meanse$task, levels=unique(meanse$task))
+meanse$trialtype = relevel(meanse$trialtype, ref='S')
+```
+
+Plotting
+--------
+```{r plot}
+head(dat)
+levels(dat$task)
+# Plot All Conds
+dodge = position_dodge(height=0, width=.1)
+p = ggplot(meanse, aes(task, m, color=trialtype, shape=trialtype)) + 
+  geom_point(position=dodge) + geom_errorbar(aes(ymin=m-se, ymax=m+se), width=.1, position=dodge) +
+  scale_shape_manual(values=c(17,16)) + 
+  scale_color_brewer(palette='Dark2') + scale_y_continuous(breaks=seq(0,1,.2), limits=c(0,1))
+```
+
+Fit Models
+----------
+I'll focus on the benefit of multilevel models from the perspective given by Andy Gelman's textbook.
+Basically, you can look at modelling a phenomenon in 3 ways: complete pooling, no pooling, or partial pooling (multilevel models).
+
+### Complete Pooling Model
+In this type of model, you aggregate all of your data together, to get an effect. For example, in the phonsim data, suppose that I just want to estimate the overall phonological similarity effect in low interference, and high interference experiments. I expect that it will be positive in the high interference conditions, but zero or negative in the low. In this case, I can just look at `trialtype`. Notice that the model below pools all of the data together, and doesn't care about which experiment they came from.
+
+```{r}
+fit.pool = lm(ACC.ser ~ -1 + trialtype, data=dat.sub)
+summary(fit.pool)
+```
+```{r, echo=FALSE}
+#fit.poolb = lm(ACC.ser ~ -1 + interference*trialtype + subid, data=dat.sub)
+# aov(ACC.ser ~ interference*trialtype + Error(subid), data=dat.sub)  # sanity check
+```
+
+The benefit of this type of model is that it lets you get overall effects. However, a downside of this model is that it can't give me an estimate of performance for each task.
+
+**tl;dr**. It's too broad.
+
+### No-Pooling Model
+Unlike the complete pooling model, the no pooling model focuses on the individual tasks instead..
+```{r}
+fit.nopool = lm(ACC.ser ~ -1 + task*trialtype, data=dat.sub)
+```
+
+The benefit of this type of model is that it makes specific predictions about each experiment. However, it doesn't make specific predictions about the general effects of phonological similarity. How could we get them from this model? A very classical way of doing things would be to average the coefficients for each level of  `trialtype`; however, this doesn't take into account sample size. Experiments with more participants should supply more information.
+
+**tl;dr**. It's too narrow.
+
+### Partial pooling (Mixed-effects models)
+We can compromise! This mixed effects model models both the effect of trialtype overall, and it's specific effect on each experiment..
+```{r}
+dat.sub$cond = paste(dat.sub$interference, dat.sub$trialtype)
+contrasts(dat.sub$trialtype) <- c(0,1)
+fit.mlm = lmer(ACC.ser ~ 0 + cond + (1 | task:subid) + (1 | task), data=dat.sub)
+
+fit.mlm.con1 = lmer(ACC.ser ~ interference*trialtype + (1 | task:subid) + (1 | task), data=dat.sub) 
+
+fit.mlm.con2 = lmer(ACC.ser ~ 0 + interference/trialtype + (1 | task:subid) + (1 | task), data=dat.sub)
+
+
+
+summary(fit.mlm)
+ranef(fit.mlm)
+fixef(fit.mlm)
+```
+```{r}
+rand.fx = ranef(fit.mlm)$task
+names(rand.fx) = gsub("trialtype", "", names(rand.fx))
+rand.fx$task = rownames(rand.fx)
+mfx = melt(rand.fx, variable_name='trialtype')
+names(mfx)[3] = 'ACC.ser'
+p# + geom_point(aes(task, ACC.ser, shape=trialtype), data=mfx)
+```
+
+
+
+interferencehigh: .53
+interferencelow:  .41
+trialtypeS: .077
+interferencelow:trialtypeS: -.08
