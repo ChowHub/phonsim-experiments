@@ -1,11 +1,21 @@
+---
+output: md_document
+params:
+  title: a title
+  conds: default fill me in
+---
+
 <!----
 Template takes..
 conds:  conditions to use (done using mustache syntax)
 --->
 
+`r params$title`
+===========================
+
 ```{r}
 library(knitr)
-opts_knit$set(self.contained=TRUE)
+opts_knit$set(self.contained=TRUE, root.dir="../")
 opts_chunk$set(fig.cap="", error=TRUE, cache=FALSE, echo=FALSE)#, fig.width=5, fig.height=3.5)
 ```
 
@@ -17,8 +27,8 @@ library(plyr)
 library(ggplot2)
 source('scripts/helper.R')
 
-scored.dat = subset(read.csv('Data/1_scored.csv', colClasses = c(Subject='factor')), 
-                    task %in% {{conds}})
+scored.dat = subset(read.csv('data/1_scored.csv', colClasses = c(Subject='factor')), 
+                    task %in% params$conds)
 
 dvs = c('ACC.ser', 'ACC.item', 'ACC.order')
 ```

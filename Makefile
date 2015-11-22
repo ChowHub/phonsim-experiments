@@ -8,4 +8,7 @@ SCORE: data/drop.csv data/groups.csv data/scored_all.csv
 	Rscript scripts/1_score.R
 
 REPORT:
-	Rscript scripts/2_gen_summaries.R
+	cd summary && Rscript create_summary.R
+	rm -rf summary/reports/{exps,mlm} && mkdir -p summary/reports/{exps,mlm}
+	mv summary/e{1,2,3,4}* summary/reports/exps/
+	mv summary/ACC* summary/reports/mlm/
