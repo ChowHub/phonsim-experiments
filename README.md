@@ -18,22 +18,21 @@ E1 to E3 correspond order-wise to the experiments in the McNamara, Moore, & Conw
 
 Processing and Summary Scripts
 ------------------------------
-Scripts for processing / analysis can be found on [github](https://github.com/machow/phonsim-experiments)
+Scripts for processing / analysis can be found on [github](https://github.com/ChowHub/phonsim-experiments)
 
 Each folder has a data sub-folder with the unprocessed experimental files.
-Where applicable, I exported the e-merge files to tab-seperated .txt files, then scored them using python.
-This wrote a new file (generally) labeled output.txt, which was then ready to crunch in R.
+Where applicable, I exported the e-merge files to tab-seperated .txt files,
+generally labeled output.txt. 
 
-A single script (`0\_processing.py`) generates the data files for the exported E-prime files.  
+A single script (`0\_processing.py`) preprocesses these output files, and saves the results as `data/scored_all.csv`.  
 This can then be fed to subsequent analyses.  So, E-merge => tab-seperated => 0\_processing.py => 1\_...
 
-
-Complex span tasks for these experiments have identical structures / labels.
-They were preprocessed in the same way.
+Some complex span tasks for these experiments have identical structures / labels.
+They were preprocessed in the same way:
 
 E2, E4, E6, E7, (E8 to E11?)..
 
-The data for the other experiments had to be preprocessed seperately. 
+Other experiments had to be preprocessed seperately. 
 See 0\_preprocess.py for details.
 
 Complete E-dat files for:

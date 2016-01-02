@@ -1,8 +1,13 @@
-all: SCORE REPORT
+all: clean SCORE REPORT
+
+clean: 
+	rm data/1_*.csv
+	rm -rf summary/results/{exps,mlm}
 
 data/1_%.csv: SCORE 
 
-summary/summary.html summary/3_mlm.html: REPORT
+summary/results/exps/%.md: REPORT
+summary/results/mlm/%.md: REPORT
 
 SCORE: data/drop.csv data/groups.csv data/scored_all.csv
 	Rscript scripts/1_score.R
