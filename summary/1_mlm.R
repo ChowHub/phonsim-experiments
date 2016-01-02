@@ -5,6 +5,7 @@
 #'    keep_md: true
 #' params:
 #'  dv_var: ACC.ser
+#'  nsim: 10000
 #' ---
 
 debug = FALSE
@@ -65,9 +66,8 @@ summary(fit.aov)
 #+ confint, echo=debug
 library(effects)
 library(boot)
-Nboot = 100
-confint(fit.mlm, method='boot', nsim=Nboot)
-confint(fit.mlm.con, method='boot', nsim=Nboot)
+confint(fit.mlm, method='boot', nsim=params$nsim)
+confint(fit.mlm.con, method='boot', nsim=params$nsim)
 
 #' ### Cohen's d
 #' Here, I divided group differences by either the residual variance,
@@ -87,7 +87,7 @@ booted = bootMer(fit.mlm.con, function(fit) {
     d_sub_low  = beta_low  / sqrt(res.var_bet + 2*res.var)
     )
 },
-  nsim=Nboot)
+  nsim=params$nsim)
 
 d.ci = lapply(1:4, function(ii) boot.ci(booted, type=c('norm', 'perc'), index=ii))
 names(d.ci) = colnames(booted$t)

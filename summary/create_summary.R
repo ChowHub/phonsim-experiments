@@ -30,12 +30,10 @@ dv_var = "ACC.ser"
 mlm_to_md = function(dv_var){
   rmarkdown::render('1_mlm.R',
                     output_file=paste0(dv_var, '.html'),
-                    params=list(dv_var=dv_var))
+                    params=list(dv_var=dv_var, nsim=10000))
 }
-mlm_to_md("ACC.ser")
+
 lapply(c("ACC.ser", "ACC.item", "ACC.order"), mlm_to_md)
 
 # Set back knitr defaults
 opts_knit$restore()
-
-
