@@ -1,5 +1,10 @@
 all: clean SCORE REPORT
 
+deploy: 
+	# may need to install mkdocs
+	# pip install mkdocs
+	cd summary/reports && mkdocs gh-deploy --clean
+
 clean: 
 	rm data/1_*.csv
 	rm -rf summary/results/{exps,mlm}
