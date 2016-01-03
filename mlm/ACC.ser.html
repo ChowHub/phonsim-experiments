@@ -63,7 +63,7 @@ img {
 <div id="header">
 <h1 class="title">Multilevel model of accuracy</h1>
 <h4 class="author"><em>machow</em></h4>
-<h4 class="date"><em>Mon Nov 23 16:13:15 2015</em></h4>
+<h4 class="date"><em>Sat Jan 2 17:50:40 2016</em></h4>
 </div>
 
 
@@ -71,6 +71,15 @@ img {
 library(knitr)
 opts_chunk$set(comment='', fig.width=14, fig.height=6.5)
 opts_knit$set(self.contained=TRUE)</code></pre>
+<pre><code>Loading required package: Matrix
+
+Attaching package: 'Matrix'
+
+The following object is masked from 'package:reshape':
+
+    expand
+
+Loading required package: Rcpp</code></pre>
 <p>Read in data</p>
 <pre class="r"><code>DV_VAR = params$dv_var
 
@@ -168,31 +177,31 @@ summary(fit.mlm2)</code></pre>
 Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
    Data: tmp_dat
 
-REML criterion at convergence: -364.1
+REML criterion at convergence: -361
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--2.02378 -0.53068  0.00959  0.51473  2.10830 
+-2.03900 -0.52230  0.00962  0.50950  2.09661 
 
 Random effects:
  Groups       Name        Variance Std.Dev.
- task:Subject (Intercept) 0.024032 0.15502 
- task         (Intercept) 0.012794 0.11311 
+ task:Subject (Intercept) 0.024036 0.15503 
+ task         (Intercept) 0.018154 0.13474 
  Residual                 0.006832 0.08265 
 Number of obs: 368, groups:  task:Subject, 184; task, 12
 
 Fixed effects:
            Estimate Std. Error t value
-condhigh D  0.52266    0.04350   12.01
-condhigh S  0.60351    0.04350   13.87
-condlow D   0.64456    0.06024   10.70
-condlow S   0.64173    0.06024   10.65
+condhigh D  0.49088    0.05063   9.696
+condhigh S  0.57174    0.05063  11.293
+condlow D   0.65943    0.07049   9.355
+condlow S   0.65660    0.07049   9.315
 
 Correlation of Fixed Effects:
            cndhgD cndhgS cndlwD
-condhigh S 0.968               
+condhigh S 0.976               
 condlow D  0.000  0.000        
-condlow S  0.000  0.000  0.974 </code></pre>
+condlow S  0.000  0.000  0.981 </code></pre>
 <p>Another Sanity check, looking at task variance from ANOVA standpoint. Note that the F-value for task is 1 (no between task var beyond subject var)</p>
 <pre class="r"><code>fit.aov = aov(dv ~ interference + task + Error(task:Subject), data=dat)</code></pre>
 <pre><code>Warning in aov(dv ~ interference + task + Error(task:Subject), data =
@@ -214,27 +223,35 @@ Residuals 184   1.61 0.008749               </code></pre>
 </div>
 <div id="confidence-intervals" class="section level2">
 <h2>Confidence Intervals</h2>
-<pre><code>Computing bootstrap confidence intervals ...</code></pre>
+<pre><code>
+Attaching package: 'boot'
+
+The following object is masked from 'package:survival':
+
+    aml
+
+The following object is masked from 'package:lattice':
+
+    melanoma
+
+Computing bootstrap confidence intervals ...</code></pre>
 <pre><code>                                 2.5 %     97.5 %
-sd_(Intercept)|task:Subject 0.13656814 0.17378744
-sd_(Intercept)|task         0.00000000 0.04557236
-sigma                       0.07412495 0.09121834
-condhigh D                  0.48859396 0.55523798
-condhigh S                  0.56855185 0.63572177
-condlow D                   0.64112233 0.72293379
-condlow S                   0.63799874 0.72022306</code></pre>
+sd_(Intercept)|task:Subject 0.13621547 0.17342007
+sd_(Intercept)|task         0.00000000 0.04567625
+sigma                       0.07404861 0.09066392
+condhigh D                  0.48897853 0.55539502
+condhigh S                  0.56928747 0.63551761
+condlow D                   0.63976799 0.72421776
+condlow S                   0.63778021 0.72093141</code></pre>
 <pre><code>Computing bootstrap confidence intervals ...</code></pre>
-<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
-control$checkConv, : Model failed to converge: degenerate Hessian with 1
-negative eigenvalues</code></pre>
 <pre><code>                                  2.5 %     97.5 %
-sd_(Intercept)|task:Subject  0.13641621 0.17383900
-sd_(Intercept)|task          0.00000000 0.04472589
-sigma                        0.07426234 0.09102956
-interferencehigh             0.48869052 0.55475010
-interferencelow              0.64035335 0.72353458
-interferencehigh:trialtype1  0.05910335 0.10281473
-interferencelow:trialtype1  -0.02991102 0.02408959</code></pre>
+sd_(Intercept)|task:Subject  0.13620388 0.17402662
+sd_(Intercept)|task          0.00000000 0.04515546
+sigma                        0.07420149 0.09101088
+interferencehigh             0.48894884 0.55505681
+interferencelow              0.64009151 0.72253421
+interferencehigh:trialtype1  0.05943675 0.10280134
+interferencelow:trialtype1  -0.02998128 0.02399044</code></pre>
 <div id="cohens-d" class="section level3">
 <h3>Cohen’s d</h3>
 <p>Here, I divided group differences by either the residual variance, or between-subject variance + residual variance.</p>
@@ -247,7 +264,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.4900,  0.8856 )   ( 0.5007,  0.8991 )  
+95%   ( 0.4890,  0.8897 )   ( 0.4957,  0.8981 )  
 Calculations and Intervals on Original Scale
 
 $d_low
@@ -259,7 +276,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.2543,  0.2089 )   (-0.2538,  0.2130 )  
+95%   (-0.2557,  0.2069 )   (-0.2537,  0.2072 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_high
@@ -271,7 +288,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.2956,  0.5277 )   ( 0.3039,  0.5341 )  
+95%   ( 0.2962,  0.5295 )   ( 0.3008,  0.5337 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_low
@@ -283,7 +300,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.1525,  0.1253 )   (-0.1518,  0.1261 )  
+95%   (-0.1534,  0.1243 )   (-0.1522,  0.1235 )  
 Calculations and Intervals on Original Scale</code></pre>
 </div>
 </div>

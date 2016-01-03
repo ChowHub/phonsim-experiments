@@ -63,7 +63,7 @@ img {
 <div id="header">
 <h1 class="title">Multilevel model of accuracy</h1>
 <h4 class="author"><em>machow</em></h4>
-<h4 class="date"><em>Mon Nov 23 16:22:50 2015</em></h4>
+<h4 class="date"><em>Sat Jan 2 18:42:14 2016</em></h4>
 </div>
 
 
@@ -168,31 +168,31 @@ summary(fit.mlm2)</code></pre>
 Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
    Data: tmp_dat
 
-REML criterion at convergence: -592.7
+REML criterion at convergence: -584.7
 
 Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--2.51186 -0.46618  0.03012  0.49789  2.31687 
+    Min      1Q  Median      3Q     Max 
+-2.4891 -0.4837  0.0285  0.4961  2.3397 
 
 Random effects:
  Groups       Name        Variance Std.Dev.
- task:Subject (Intercept) 0.011142 0.10556 
- task         (Intercept) 0.003804 0.06168 
+ task:Subject (Intercept) 0.011160 0.10564 
+ task         (Intercept) 0.009341 0.09665 
  Residual                 0.004135 0.06431 
 Number of obs: 368, groups:  task:Subject, 184; task, 12
 
 Fixed effects:
            Estimate Std. Error t value
-condhigh D  0.63479    0.02490   25.50
-condhigh S  0.74160    0.02490   29.79
-condlow D   0.78445    0.03412   22.99
-condlow S   0.80656    0.03412   23.64
+condhigh D  0.70185    0.03624   19.37
+condhigh S  0.80867    0.03624   22.32
+condlow D   0.82929    0.05048   16.43
+condlow S   0.85141    0.05048   16.86
 
 Correlation of Fixed Effects:
            cndhgD cndhgS cndlwD
-condhigh S 0.940               
+condhigh S 0.972               
 condlow D  0.000  0.000        
-condlow S  0.000  0.000  0.951 </code></pre>
+condlow S  0.000  0.000  0.977 </code></pre>
 <p>Another Sanity check, looking at task variance from ANOVA standpoint. Note that the F-value for task is 1 (no between task var beyond subject var)</p>
 <pre class="r"><code>fit.aov = aov(dv ~ interference + task + Error(task:Subject), data=dat)</code></pre>
 <pre><code>Warning in aov(dv ~ interference + task + Error(task:Subject), data =
@@ -216,25 +216,31 @@ Residuals 184  1.409 0.007658               </code></pre>
 <h2>Confidence Intervals</h2>
 <pre><code>Computing bootstrap confidence intervals ...</code></pre>
 <pre><code>                                 2.5 %     97.5 %
-sd_(Intercept)|task:Subject 0.09214009 0.11914302
-sd_(Intercept)|task         0.00000000 0.04026223
-sigma                       0.05759710 0.07089325
-condhigh D                  0.62086497 0.67351433
-condhigh S                  0.72841939 0.78050422
-condlow D                   0.75538683 0.82269463
-condlow S                   0.77748740 0.84447058</code></pre>
+sd_(Intercept)|task:Subject 0.09250889 0.11903519
+sd_(Intercept)|task         0.00000000 0.03990784
+sigma                       0.05751928 0.07096867
+condhigh D                  0.62111733 0.67345914
+condhigh S                  0.72815185 0.78031713
+condlow D                   0.75500345 0.82201072
+condlow S                   0.77674508 0.84369097</code></pre>
 <pre><code>Computing bootstrap confidence intervals ...</code></pre>
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+control$checkConv, : Model failed to converge: degenerate Hessian with 1
+negative eigenvalues</code></pre>
 <pre><code>                                  2.5 %     97.5 %
-sd_(Intercept)|task:Subject 0.092527556 0.11913040
-sd_(Intercept)|task         0.000000000 0.03948797
-sigma                       0.057455497 0.07097781
-interferencehigh            0.621353776 0.67435007
-interferencelow             0.755564856 0.82244083
-interferencehigh:trialtype1 0.089946962 0.12380726
-interferencelow:trialtype1  0.001353281 0.04302983</code></pre>
+sd_(Intercept)|task:Subject 0.092225059 0.11913481
+sd_(Intercept)|task         0.000000000 0.03986962
+sigma                       0.057698984 0.07090716
+interferencehigh            0.622249320 0.67372581
+interferencelow             0.755181186 0.82200029
+interferencehigh:trialtype1 0.089893383 0.12356648
+interferencelow:trialtype1  0.001203204 0.04290715</code></pre>
 <div id="cohens-d" class="section level3">
 <h3>Cohen’s d</h3>
 <p>Here, I divided group differences by either the residual variance, or between-subject variance + residual variance.</p>
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+control$checkConv, : Model failed to converge: degenerate Hessian with 1
+negative eigenvalues</code></pre>
 <pre><code>$d_high
 BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 Based on 10000 bootstrap replicates
@@ -244,7 +250,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.947,  1.394 )   ( 0.963,  1.415 )  
+95%   ( 0.945,  1.395 )   ( 0.958,  1.410 )  
 Calculations and Intervals on Original Scale
 
 $d_low
@@ -256,7 +262,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.0125,  0.4731 )   ( 0.0130,  0.4723 )  
+95%   ( 0.0113,  0.4792 )   ( 0.0127,  0.4776 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_high
@@ -268,7 +274,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.6256,  0.8965 )   ( 0.6345,  0.9078 )  
+95%   ( 0.6244,  0.8983 )   ( 0.6309,  0.9064 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_low
@@ -280,7 +286,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.0085,  0.3071 )   ( 0.0081,  0.3078 )  
+95%   ( 0.0083,  0.3108 )   ( 0.0082,  0.3103 )  
 Calculations and Intervals on Original Scale</code></pre>
 </div>
 </div>
