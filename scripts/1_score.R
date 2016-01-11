@@ -34,8 +34,9 @@ dat = ddply(dat, .(Subject, task, trialnum, trialtype), transform,
 dat$ACC.possible = !is.na(dat$inpos)
 
 # Score Many Error Types ------------------------------------------------------
-dat$ACC.blank = dat$TBR != "" & dat$resp == ""
-dat$ACC.seqerr = dat$ACC.item & !dat$ACC.ser
+dat$ACC.blank = dat$TBR != "" & dat$resp == ""    # left blank
+dat$ACC.seqerr = dat$ACC.item & !dat$ACC.ser      # wrong position
+dat$ACC.worderr = !dat$ACC.blank & !dat$ACC.item  # not blank, but wrong word
 # distance of transposition conditional on correct item recall
 dat = ddply(dat, .(Subject, task, trialnum, trialtype), transform, 
             ACC.transdist=outpos[match(TBR, resp)] - inpos)
@@ -76,6 +77,7 @@ scored.dat$ACC.order = scored.dat$ACC.ser / scored.dat$ACC.item
 scored.curve$ACC.order = scored.curve$ACC.ser / scored.curve$ACC.item
 
 #Write data
+write.csv(dat, 'data/1_scored_trial.csv')
 write.csv(scored.dat, file='data/1_scored.csv')
 write.csv(scored.curve, file='data/1_scored_curve.csv')
 write.csv(scored.trans, file='data/1_scored_trans.csv')
