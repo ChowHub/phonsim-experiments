@@ -6,18 +6,24 @@
 #' params:
 #'  dv_var: ACC.ser
 #'  nsim: 10000
+#'  plot_ymax: 1
+#'  plot_yshift: 0
 #' ---
 
+#+ config, echo=FALSE
 debug = FALSE
 library(knitr)
 opts_chunk$set(comment='', fig.width=14, fig.height=6.5)
-opts_knit$set(self.contained=TRUE)
+opts_knit$set(self.contained=TRUE, base.dir="./", root.dir="../")
 
 #+ setup, echo=debug
 library(plyr)
 library(ggplot2)
 library(lme4)
 library(reshape)
+
+#' Params:
+params
 
 #' Read in data
 #+ data, echo=TRUE
@@ -49,6 +55,10 @@ summary(fit.mlm)
 #' ### Same model contrast coded for similarity benefit
 fit.mlm.con = lmer(dv ~ 0 + interference/trialtype + (1 | task:Subject) + (1 | task), data=dat)
 summary(fit.mlm.con)
+
+#' ### Same model contrast coded for interference benefit
+fit.mlm.int = lmer(dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm.int)
 
 #' ### Why is task variance estimated to be 0?
 #' Sanity check, injecting noise at task level. Note the accurate task variance estimates.
@@ -121,13 +131,15 @@ p = ggplot(meanse, aes(task, m, color=trialtype, shape=trialtype)) +
   geom_hline(aes(yintercept=m.pred, linetype=cond, color=sim), alpha = .5, data=fit.mean) +
   geom_point(position=dodge) +# geom_errorbar(aes(ymin=m-se, ymax=m+se), width=.1, position=dodge) +
   scale_shape_manual(values=c(17,16)) + 
-  scale_color_brewer(palette='Dark2') + scale_y_continuous(breaks=seq(0,1,.2), limits=c(0,1), expand=c(0,0)) +
+  scale_color_brewer(palette='Dark2') + scale_y_continuous(breaks=seq(0,1,.2), limits=c(0 + params$plot_yshift ,params$plot_ymax), expand=c(0,0)) +
   expand_limits(x=0,y=0)+
   theme_bw() + ggtitle(DV_VAR)
 
 # make rectangles indicating high or low interference
+YMAX = params$plot_ymax / 10 + params$plot_yshift
+YMIN = 0 + params$plot_yshift
 group_annot = data.frame(xmin = c(0, 4.5), xmax = c(4.5, 12.6), 
-                         ymin = c(0, 0),   ymax = c(.1, .1))
+                         ymin = YMIN,   ymax = YMAX)
 group_annot$text.x = with(group_annot, xmin + (xmax - xmin)/2)
 group_annot$text.y = with(group_annot, ymin + (ymax - ymin)/2)
 group_annot$label = c('low interference', 'high interference')

@@ -23,17 +23,16 @@ lapply(names(exps), function(exp_name)
 )
 
 # Report for MLM ------------------------------------------------------------
-opts_knit$set(base.dir="./", root.dir="../")
 
 library(rmarkdown)
 dv_var = "ACC.ser"
-mlm_to_md = function(dv_var){
+mlm_to_md = function(dv_var, ymax=1, yshift=0){
   rmarkdown::render('1_mlm.R',
                     output_file=paste0(dv_var, '.html'),
-                    params=list(dv_var=dv_var, nsim=10000))
+                    params=list(dv_var=dv_var, nsim=10000, plot_ymax=ymax, plot_yshift=yshift))
 }
 
 lapply(c("ACC.ser", "ACC.item", "ACC.order"), mlm_to_md)
-
-# Set back knitr defaults
-opts_knit$restore()
+mlm_to_md("ACC.blank", ymax=.4)
+mlm_to_md("ACC.worderr", ymax=.4)
+mlm_to_md("ACC.pli", ymax=.04, yshift=-.006)
