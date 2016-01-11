@@ -1,5 +1,6 @@
 site_name: Phonological Similarity in Complex Span
 theme: 'readthedocs'
+repo_url: 'https://github.com/ChowHub/phonsim-experiments'
 theme_dir: 'summary/reports/theme_tweak'
 docs_dir: 'summary/reports'
 pages:
