@@ -36,3 +36,6 @@ lapply(c("ACC.ser", "ACC.item", "ACC.order"), mlm_to_md)
 mlm_to_md("ACC.blank", ymax=.4)
 mlm_to_md("ACC.worderr", ymax=.4)
 mlm_to_md("ACC.pli", ymax=.04, yshift=-.006)
+
+# Misc Reports --------
+rmarkdown::render('./2_distractor_intrusions.R')

@@ -17,3 +17,5 @@ pages:
         - 'Prior List Intrusions':  'mlm/ACC.pli.md'
         - 'Other Intrusions':  'mlm/ACC.worderr.md'
         - 'Omissions':  'mlm/ACC.blank.md'
+    - 'Misc':
+        - 'Distractor Intrusions': 'misc/misc_distractor_intrusions.md'
