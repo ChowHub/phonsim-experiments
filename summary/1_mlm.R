@@ -33,9 +33,8 @@ all.dat = read.csv('data/1_scored.csv')
 all.dat$Subject = factor(all.dat$Subject)
 all.dat$dv = all.dat[,DV_VAR]
 
-# Omit task, because Brooke thought effects were originally in other direction
-# it's not clear if the data were preprocessed incorrectly (and raw data is
-# not available)
+# Remove regular ospan, which has substantially lower accuracy 
+# due to verification requirements
 dat = subset(all.dat, !task %in% 'Ospan.reg')
 
 # Mark high and low interference conditions
