@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>E4 (names) - Phonological Similarity in Complex Span</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "E4 (names)";
+    var mkdocs_page_url = "/exps/e4/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+  <script src="../../theme_tweak/js/theme.js"></script>
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Phonological Similarity in Complex Span</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Experiments</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../e1/">E1 (ospan)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../e2/">E2 (shuffled)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../e3/">E3 (pooled)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">E4 (names)</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#e4-rspannameslong-rspannamesshort">e4 - Rspan.names.long, Rspan.names.short</a></li>
+                
+                    <li><a class="toctree-l4" href="#descriptives">Descriptives</a></li>
+                
+                    <li><a class="toctree-l4" href="#residual-check">Residual Check</a></li>
+                
+                    <li><a class="toctree-l4" href="#effect-plots">Effect Plots</a></li>
+                
+                    <li><a class="toctree-l4" href="#accser">ACC.ser</a></li>
+                
+                    <li><a class="toctree-l4" href="#accitem">ACC.item</a></li>
+                
+                    <li><a class="toctree-l4" href="#accorder">ACC.order</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Multilevel Models</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../mlm/ACC.ser/">Serial Accuracy</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../mlm/ACC.item/">Item Accuracy</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../mlm/ACC.order/">Order Accuracy</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Phonological Similarity in Complex Span</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Experiments &raquo;</li>
+        
+      
+    
+    <li>E4 (names)</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <!----
+Template takes..
+conds:  conditions to use (done using mustache syntax)
+--->
+
+<h1 id="e4-rspannameslong-rspannamesshort">e4 - Rspan.names.long, Rspan.names.short</h1>
+<pre><code>library(knitr)
+opts_knit$set(self.contained=TRUE, root.dir="../")
+opts_chunk$set(fig.cap="", error=TRUE, cache=FALSE, echo=FALSE)#, fig.width=5, fig.height=3.5)
+</code></pre>
+<h2 id="descriptives">Descriptives</h2>
+<h4 id="n">N</h4>
+<pre><code>##                task trialtype Participants
+## 1  Rspan.names.long         D           17
+## 2  Rspan.names.long         S           17
+## 3 Rspan.names.short         D           17
+## 4 Rspan.names.short         S           17
+</code></pre>
+<h2 id="residual-check">Residual Check</h2>
+<h4 id="scatterplots-of-similar-vs-dissimilar">Scatterplots of Similar vs Dissimilar</h4>
+<p><img alt="" src="../e4_files/figure-markdown_strict/unnamed-chunk-4-1.png" /></p>
+<p>gray line has intercept=0, slope=1. Blue line is regression fit.</p>
+<h4 id="averaged-across-similarity-conditions-and-z-scored">Averaged across similarity conditions (and z-scored)</h4>
+<p><img alt="" src="../e4_files/figure-markdown_strict/unnamed-chunk-5-1.png" /></p>
+<h2 id="effect-plots">Effect Plots</h2>
+<p>Standard errors are between group</p>
+<p><img alt="" src="../e4_files/figure-markdown_strict/unnamed-chunk-6-1.png" />
+<img alt="" src="../e4_files/figure-markdown_strict/unnamed-chunk-6-2.png" />
+<img alt="" src="../e4_files/figure-markdown_strict/unnamed-chunk-6-3.png" /></p>
+<h2 id="accser">ACC.ser</h2>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+task       1 0.0427 0.04269   0.751  0.393
+Residuals 32 1.8191 0.05685
+
+Error: Unique_ID:trialtype
+               Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+trialtype       1 0.01261 0.012608   2.512  0.123
+task:trialtype  1 0.00202 0.002017   0.402  0.531
+Residuals      32 0.16061 0.005019
+</code></pre>
+<h4 id="partial-eta-square">Partial Eta-square</h4>
+<pre><code>                    eta.2
+task           0.02292673
+trialtype      0.07278444
+task:trialtype 0.01240387
+</code></pre>
+<h4 id="simple-effects">Simple Effects</h4>
+<h4 id="short">Short</h4>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals 16 0.9465 0.05916
+
+Error: Unique_ID:trialtype
+          Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+trialtype  1 0.01236 0.012356   2.568  0.129
+Residuals 16 0.07698 0.004811
+
+              eta.2
+trialtype 0.1383087
+</code></pre>
+<h4 id="long">Long</h4>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals 16 0.8726 0.05454
+
+Error: Unique_ID:trialtype
+          Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+trialtype  1 0.00227 0.002269   0.434  0.519
+Residuals 16 0.08364 0.005227
+
+               eta.2
+trialtype 0.02641775
+</code></pre>
+<h2 id="accitem">ACC.item</h2>
+<pre><code>Error: Unique_ID
+          Df Sum Sq  Mean Sq F value Pr(&gt;F)
+task       1 0.0098 0.009764   0.376  0.544
+Residuals 32 0.8320 0.025999
+
+Error: Unique_ID:trialtype
+               Df  Sum Sq  Mean Sq F value  Pr(&gt;F)   
+trialtype       1 0.02913 0.029129  11.440 0.00191 **
+task:trialtype  1 0.00050 0.000504   0.198 0.65928   
+Residuals      32 0.08148 0.002546                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+</code></pre>
+<h4 id="partial-eta-square_1">Partial Eta-square</h4>
+<pre><code>                     eta.2
+task           0.011599204
+trialtype      0.263359475
+task:trialtype 0.006151575
+</code></pre>
+<h4 id="simple-effects_1">Simple Effects</h4>
+<h4 id="short_1">Short</h4>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals 16 0.4095 0.02559
+
+Error: Unique_ID:trialtype
+          Df  Sum Sq  Mean Sq F value Pr(&gt;F)   
+trialtype  1 0.01865 0.018650   9.874 0.0063 **
+Residuals 16 0.03022 0.001889                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+              eta.2
+trialtype 0.3816305
+</code></pre>
+<h4 id="long_1">Long</h4>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals 16 0.4225 0.02641
+
+Error: Unique_ID:trialtype
+          Df  Sum Sq  Mean Sq F value Pr(&gt;F)  
+trialtype  1 0.01098 0.010984   3.429 0.0826 .
+Residuals 16 0.05126 0.003204                 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+              eta.2
+trialtype 0.1764706
+</code></pre>
+<h2 id="accorder">ACC.order</h2>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+task       1 0.0237  0.0237   0.996  0.326
+Residuals 32 0.7617  0.0238
+
+Error: Unique_ID:trialtype
+               Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+trialtype       1 0.00195 0.001949   0.350  0.558
+task:trialtype  1 0.00044 0.000435   0.078  0.782
+Residuals      32 0.17806 0.005564
+</code></pre>
+<h4 id="partial-eta-square_2">Partial Eta-square</h4>
+<pre><code>                     eta.2
+task           0.030171349
+trialtype      0.010829901
+task:trialtype 0.002437748
+</code></pre>
+<h4 id="simple-effects_2">Simple Effects</h4>
+<h4 id="short_2">Short</h4>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals 16 0.3746 0.02341
+
+Error: Unique_ID:trialtype
+          Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+trialtype  1 0.00027 0.000271   0.042   0.84
+Residuals 16 0.10313 0.006445
+
+                eta.2
+trialtype 0.002623665
+</code></pre>
+<h4 id="long_2">Long</h4>
+<pre><code>Error: Unique_ID
+          Df Sum Sq Mean Sq F value Pr(&gt;F)
+Residuals 16 0.3871  0.0242
+
+Error: Unique_ID:trialtype
+          Df  Sum Sq  Mean Sq F value Pr(&gt;F)
+trialtype  1 0.00211 0.002113   0.451  0.511
+Residuals 16 0.07493 0.004683
+
+               eta.2
+trialtype 0.02743009
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../../mlm/ACC.ser/" class="btn btn-neutral float-right" title="Serial Accuracy"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../e3/" class="btn btn-neutral" title="E3 (pooled)"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../e3/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../../mlm/ACC.ser/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>

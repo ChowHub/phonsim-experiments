@@ -63,14 +63,23 @@ img {
 <div id="header">
 <h1 class="title">Multilevel model of accuracy</h1>
 <h4 class="author"><em>machow</em></h4>
-<h4 class="date"><em>Sat Jan 2 18:42:14 2016</em></h4>
+<h4 class="date"><em>Wed Jan 13 11:55:24 2016</em></h4>
 </div>
 
 
-<pre class="r"><code>debug = FALSE
-library(knitr)
-opts_chunk$set(comment='', fig.width=14, fig.height=6.5)
-opts_knit$set(self.contained=TRUE)</code></pre>
+<p>Params:</p>
+<pre class="r"><code>params</code></pre>
+<pre><code>$dv_var
+[1] &quot;ACC.item&quot;
+
+$nsim
+[1] 10000
+
+$plot_ymax
+[1] 1
+
+$plot_yshift
+[1] 0</code></pre>
 <p>Read in data</p>
 <pre class="r"><code>DV_VAR = params$dv_var
 
@@ -78,9 +87,8 @@ all.dat = read.csv('data/1_scored.csv')
 all.dat$Subject = factor(all.dat$Subject)
 all.dat$dv = all.dat[,DV_VAR]
 
-# Omit task, because Brooke thought effects were originally in other direction
-# it's not clear if the data were preprocessed incorrectly (and raw data is
-# not available)
+# Remove regular ospan, which has substantially lower accuracy 
+# due to verification requirements
 dat = subset(all.dat, !task %in% 'Ospan.reg')
 
 # Mark high and low interference conditions
@@ -158,6 +166,40 @@ interfrnclw  0.000
 intrfrnch:1 -0.322     0.000               
 intrfrncl:1  0.000    -0.315     0.000     </code></pre>
 </div>
+<div id="same-model-contrast-coded-for-interference-benefit" class="section level3">
+<h3>Same model contrast coded for interference benefit</h3>
+<pre class="r"><code>fit.mlm.int = lmer(dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm.int)</code></pre>
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -604.2
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.50496 -0.49645  0.01264  0.50477  2.32377 
+
+Random effects:
+ Groups       Name        Variance  Std.Dev.
+ task:Subject (Intercept) 0.0112915 0.10626 
+ task         (Intercept) 0.0003014 0.01736 
+ Residual                 0.0041352 0.06431 
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+                           Estimate Std. Error t value
+trialtypeD                  0.64776    0.01333   48.58
+trialtypeS                  0.75458    0.01333   56.59
+trialtypeD:interferencelow  0.14082    0.02162    6.51
+trialtypeS:interferencelow  0.05613    0.02162    2.60
+
+Correlation of Fixed Effects:
+            trltyD trltyS trltD:
+trialtypeS   0.792              
+trltypD:ntr -0.617 -0.489       
+trltypS:ntr -0.489 -0.617  0.798</code></pre>
+</div>
 <div id="why-is-task-variance-estimated-to-be-0" class="section level3">
 <h3>Why is task variance estimated to be 0?</h3>
 <p>Sanity check, injecting noise at task level. Note the accurate task variance estimates.</p>
@@ -168,31 +210,31 @@ summary(fit.mlm2)</code></pre>
 Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
    Data: tmp_dat
 
-REML criterion at convergence: -584.7
+REML criterion at convergence: -583.4
 
 Scaled residuals: 
     Min      1Q  Median      3Q     Max 
--2.4891 -0.4837  0.0285  0.4961  2.3397 
+-2.4922 -0.4784  0.0298  0.5019  2.3365 
 
 Random effects:
  Groups       Name        Variance Std.Dev.
- task:Subject (Intercept) 0.011160 0.10564 
- task         (Intercept) 0.009341 0.09665 
+ task:Subject (Intercept) 0.011176 0.10572 
+ task         (Intercept) 0.010438 0.10216 
  Residual                 0.004135 0.06431 
 Number of obs: 368, groups:  task:Subject, 184; task, 12
 
 Fixed effects:
            Estimate Std. Error t value
-condhigh D  0.70185    0.03624   19.37
-condhigh S  0.80867    0.03624   22.32
-condlow D   0.82929    0.05048   16.43
-condlow S   0.85141    0.05048   16.86
+condhigh D  0.64893    0.03808   17.04
+condhigh S  0.75574    0.03808   19.84
+condlow D   0.76402    0.05313   14.38
+condlow S   0.78614    0.05313   14.80
 
 Correlation of Fixed Effects:
            cndhgD cndhgS cndlwD
-condhigh S 0.972               
+condhigh S 0.975               
 condlow D  0.000  0.000        
-condlow S  0.000  0.000  0.977 </code></pre>
+condlow S  0.000  0.000  0.980 </code></pre>
 <p>Another Sanity check, looking at task variance from ANOVA standpoint. Note that the F-value for task is 1 (no between task var beyond subject var)</p>
 <pre class="r"><code>fit.aov = aov(dv ~ interference + task + Error(task:Subject), data=dat)</code></pre>
 <pre><code>Warning in aov(dv ~ interference + task + Error(task:Subject), data =
@@ -216,31 +258,25 @@ Residuals 184  1.409 0.007658               </code></pre>
 <h2>Confidence Intervals</h2>
 <pre><code>Computing bootstrap confidence intervals ...</code></pre>
 <pre><code>                                 2.5 %     97.5 %
-sd_(Intercept)|task:Subject 0.09250889 0.11903519
-sd_(Intercept)|task         0.00000000 0.03990784
-sigma                       0.05751928 0.07096867
-condhigh D                  0.62111733 0.67345914
-condhigh S                  0.72815185 0.78031713
-condlow D                   0.75500345 0.82201072
-condlow S                   0.77674508 0.84369097</code></pre>
+sd_(Intercept)|task:Subject 0.09255476 0.11901489
+sd_(Intercept)|task         0.00000000 0.03949548
+sigma                       0.05782647 0.07102406
+condhigh D                  0.62095621 0.67417458
+condhigh S                  0.72843496 0.78086076
+condlow D                   0.75516551 0.82218674
+condlow S                   0.77751015 0.84450434</code></pre>
 <pre><code>Computing bootstrap confidence intervals ...</code></pre>
-<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
-control$checkConv, : Model failed to converge: degenerate Hessian with 1
-negative eigenvalues</code></pre>
-<pre><code>                                  2.5 %     97.5 %
-sd_(Intercept)|task:Subject 0.092225059 0.11913481
-sd_(Intercept)|task         0.000000000 0.03986962
-sigma                       0.057698984 0.07090716
-interferencehigh            0.622249320 0.67372581
-interferencelow             0.755181186 0.82200029
-interferencehigh:trialtype1 0.089893383 0.12356648
-interferencelow:trialtype1  0.001203204 0.04290715</code></pre>
+<pre><code>                                   2.5 %     97.5 %
+sd_(Intercept)|task:Subject 0.0923921737 0.11898867
+sd_(Intercept)|task         0.0000000000 0.03992345
+sigma                       0.0577719265 0.07084858
+interferencehigh            0.6214845334 0.67364441
+interferencelow             0.7548011256 0.82174898
+interferencehigh:trialtype1 0.0899857704 0.12380529
+interferencelow:trialtype1  0.0008542153 0.04299649</code></pre>
 <div id="cohens-d" class="section level3">
 <h3>Cohen’s d</h3>
 <p>Here, I divided group differences by either the residual variance, or between-subject variance + residual variance.</p>
-<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
-control$checkConv, : Model failed to converge: degenerate Hessian with 1
-negative eigenvalues</code></pre>
 <pre><code>$d_high
 BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
 Based on 10000 bootstrap replicates
@@ -250,7 +286,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.945,  1.395 )   ( 0.958,  1.410 )  
+95%   ( 0.947,  1.393 )   ( 0.968,  1.412 )  
 Calculations and Intervals on Original Scale
 
 $d_low
@@ -262,7 +298,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.0113,  0.4792 )   ( 0.0127,  0.4776 )  
+95%   ( 0.0035,  0.4769 )   ( 0.0110,  0.4832 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_high
@@ -274,7 +310,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.6244,  0.8983 )   ( 0.6309,  0.9064 )  
+95%   ( 0.6246,  0.8955 )   ( 0.6347,  0.9070 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_low
@@ -286,7 +322,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.0083,  0.3108 )   ( 0.0082,  0.3103 )  
+95%   ( 0.0024,  0.3097 )   ( 0.0075,  0.3142 )  
 Calculations and Intervals on Original Scale</code></pre>
 </div>
 </div>

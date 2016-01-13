@@ -160,6 +160,42 @@
     </li>
 
         
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.pli/">Prior List Intrusions</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.worderr/">Other Intrusions</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.blank/">Omissions</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Misc</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../misc/misc_distractor_intrusions/">Distractor Intrusions</a>
+        
+    </li>
+
+        
     </ul>
 <li>
           
@@ -192,6 +228,10 @@
     <li>Serial Accuracy</li>
     <li class="wy-breadcrumbs-aside">
       
+        
+          <a href="https://github.com/ChowHub/phonsim-experiments" class="icon icon-github"> Edit on GitHub</a>
+        
+      
     </li>
   </ul>
   <hr/>
@@ -200,12 +240,6 @@
             <div class="section">
               
                 <h1 id="multilevel-model-of-accuracy">Multilevel model of accuracy</h1>
-<pre><code class="r">debug = FALSE
-library(knitr)
-opts_chunk$set(comment='', fig.width=14, fig.height=6.5)
-opts_knit$set(self.contained=TRUE)
-</code></pre>
-
 <pre><code>Loading required package: Matrix
 
 Attaching package: 'Matrix'
@@ -217,6 +251,23 @@ The following object is masked from 'package:reshape':
 Loading required package: Rcpp
 </code></pre>
 
+<p>Params:</p>
+<pre><code class="r">params
+</code></pre>
+
+<pre><code>$dv_var
+[1] &quot;ACC.ser&quot;
+
+$nsim
+[1] 10000
+
+$plot_ymax
+[1] 1
+
+$plot_yshift
+[1] 0
+</code></pre>
+
 <p>Read in data</p>
 <pre><code class="r">DV_VAR = params$dv_var
 
@@ -224,9 +275,8 @@ all.dat = read.csv('data/1_scored.csv')
 all.dat$Subject = factor(all.dat$Subject)
 all.dat$dv = all.dat[,DV_VAR]
 
-# Omit task, because Brooke thought effects were originally in other direction
-# it's not clear if the data were preprocessed incorrectly (and raw data is
-# not available)
+# Remove regular ospan, which has substantially lower accuracy 
+# due to verification requirements
 dat = subset(all.dat, !task %in% 'Ospan.reg')
 
 # Mark high and low interference conditions
@@ -311,6 +361,42 @@ intrfrnch:1 -0.328     0.000
 intrfrncl:1  0.000    -0.327     0.000     
 </code></pre>
 
+<h3 id="same-model-contrast-coded-for-interference-benefit">Same model contrast coded for interference benefit</h3>
+<pre><code class="r">fit.mlm.int = lmer(dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm.int)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -382.4
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.03890 -0.51960 -0.00493  0.52105  2.07599 
+
+Random effects:
+ Groups       Name        Variance  Std.Dev.
+ task:Subject (Intercept) 2.435e-02 0.156030
+ task         (Intercept) 4.146e-05 0.006439
+ Residual                 6.832e-03 0.082654
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+                           Estimate Std. Error t value
+trialtypeD                  0.52188    0.01685   30.97
+trialtypeS                  0.60274    0.01685   35.77
+trialtypeD:interferencelow  0.15995    0.02697    5.93
+trialtypeS:interferencelow  0.07627    0.02697    2.83
+
+Correlation of Fixed Effects:
+            trltyD trltyS trltD:
+trialtypeS   0.785              
+trltypD:ntr -0.625 -0.491       
+trltypS:ntr -0.491 -0.625  0.786
+</code></pre>
+
 <h3 id="why-is-task-variance-estimated-to-be-0">Why is task variance estimated to be 0?</h3>
 <p>Sanity check, injecting noise at task level. Note the accurate task variance estimates.</p>
 <pre><code class="r">tmp_dat = ddply(dat, .(task), transform, dv = dv + rnorm(1, sd=.1))
@@ -322,31 +408,31 @@ summary(fit.mlm2)
 Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
    Data: tmp_dat
 
-REML criterion at convergence: -361
+REML criterion at convergence: -373.8
 
 Scaled residuals: 
      Min       1Q   Median       3Q      Max 
--2.03900 -0.52230  0.00962  0.50950  2.09661 
+-2.05499 -0.51661  0.00339  0.52422  2.06881 
 
 Random effects:
  Groups       Name        Variance Std.Dev.
- task:Subject (Intercept) 0.024036 0.15503 
- task         (Intercept) 0.018154 0.13474 
+ task:Subject (Intercept) 0.024097 0.15523 
+ task         (Intercept) 0.003452 0.05875 
  Residual                 0.006832 0.08265 
 Number of obs: 368, groups:  task:Subject, 184; task, 12
 
 Fixed effects:
            Estimate Std. Error t value
-condhigh D  0.49088    0.05063   9.696
-condhigh S  0.57174    0.05063  11.293
-condlow D   0.65943    0.07049   9.355
-condlow S   0.65660    0.07049   9.315
+condhigh D  0.47286    0.02684   17.61
+condhigh S  0.55371    0.02684   20.63
+condlow D   0.70018    0.03597   19.47
+condlow S   0.69735    0.03597   19.39
 
 Correlation of Fixed Effects:
            cndhgD cndhgS cndlwD
-condhigh S 0.976               
+condhigh S 0.915               
 condlow D  0.000  0.000        
-condlow S  0.000  0.000  0.981 
+condlow S  0.000  0.000  0.927 
 </code></pre>
 
 <p>Another Sanity check, looking at task variance from ANOVA standpoint.
@@ -391,26 +477,26 @@ Computing bootstrap confidence intervals ...
 </code></pre>
 
 <pre><code>                                 2.5 %     97.5 %
-sd_(Intercept)|task:Subject 0.13621547 0.17342007
-sd_(Intercept)|task         0.00000000 0.04567625
-sigma                       0.07404861 0.09066392
-condhigh D                  0.48897853 0.55539502
-condhigh S                  0.56928747 0.63551761
-condlow D                   0.63976799 0.72421776
-condlow S                   0.63778021 0.72093141
+sd_(Intercept)|task:Subject 0.13613751 0.17342647
+sd_(Intercept)|task         0.00000000 0.04640465
+sigma                       0.07421224 0.09117062
+condhigh D                  0.48948082 0.55498645
+condhigh S                  0.56970322 0.63594401
+condlow D                   0.64082173 0.72236687
+condlow S                   0.63745372 0.71954698
 </code></pre>
 
 <pre><code>Computing bootstrap confidence intervals ...
 </code></pre>
 
 <pre><code>                                  2.5 %     97.5 %
-sd_(Intercept)|task:Subject  0.13620388 0.17402662
-sd_(Intercept)|task          0.00000000 0.04515546
-sigma                        0.07420149 0.09101088
-interferencehigh             0.48894884 0.55505681
-interferencelow              0.64009151 0.72253421
-interferencehigh:trialtype1  0.05943675 0.10280134
-interferencelow:trialtype1  -0.02998128 0.02399044
+sd_(Intercept)|task:Subject  0.13650324 0.17365590
+sd_(Intercept)|task          0.00000000 0.04474944
+sigma                        0.07429076 0.09108613
+interferencehigh             0.48895606 0.55509559
+interferencelow              0.64008397 0.72339610
+interferencehigh:trialtype1  0.05892192 0.10198451
+interferencelow:trialtype1  -0.02945740 0.02421941
 </code></pre>
 
 <h3 id="cohens-d">Cohen's d</h3>
@@ -425,7 +511,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.4890,  0.8897 )   ( 0.4957,  0.8981 )  
+95%   ( 0.4887,  0.8898 )   ( 0.5003,  0.9002 )  
 Calculations and Intervals on Original Scale
 
 $d_low
@@ -437,7 +523,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.2557,  0.2069 )   (-0.2537,  0.2072 )  
+95%   (-0.2564,  0.2070 )   (-0.2555,  0.2098 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_high
@@ -449,7 +535,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   ( 0.2962,  0.5295 )   ( 0.3008,  0.5337 )  
+95%   ( 0.2952,  0.5297 )   ( 0.3024,  0.5378 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_low
@@ -461,7 +547,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.1534,  0.1243 )   (-0.1522,  0.1235 )  
+95%   (-0.1539,  0.1244 )   (-0.1530,  0.1250 )  
 Calculations and Intervals on Original Scale
 </code></pre>
 
@@ -486,7 +572,7 @@ ymax not defined: adjusting position using y instead
 <hr />
 <p>title: "1_mlm.R"
 author: "machow"
-date: "Sat Jan  2 17:50:40 2016"</p>
+date: "Wed Jan 13 11:45:16 2016"</p>
 <hr />
               
             </div>
@@ -522,6 +608,8 @@ date: "Sat Jan  2 17:50:40 2016"</p>
 
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/ChowHub/phonsim-experiments" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
         <span><a href="../../exps/e4/" style="color: #fcfcfc;">&laquo; Previous</a></span>

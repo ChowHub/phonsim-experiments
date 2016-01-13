@@ -4,7 +4,7 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,25 +13,25 @@
         
     <url>
      <loc>None/exps/e1/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/exps/e2/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/exps/e3/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/exps/e4/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -41,19 +41,47 @@
         
     <url>
      <loc>None/mlm/ACC.ser/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/mlm/ACC.item/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>None/mlm/ACC.order/</loc>
-     <lastmod>2016-01-03</lastmod>
+     <lastmod>2016-01-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/mlm/ACC.pli/</loc>
+     <lastmod>2016-01-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/mlm/ACC.worderr/</loc>
+     <lastmod>2016-01-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/mlm/ACC.blank/</loc>
+     <lastmod>2016-01-13</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>None/misc/misc_distractor_intrusions/</loc>
+     <lastmod>2016-01-13</lastmod>
      <changefreq>daily</changefreq>
     </url>
         

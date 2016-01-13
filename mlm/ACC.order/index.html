@@ -160,6 +160,42 @@
     </li>
 
         
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.pli/">Prior List Intrusions</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.worderr/">Other Intrusions</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.blank/">Omissions</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Misc</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../misc/misc_distractor_intrusions/">Distractor Intrusions</a>
+        
+    </li>
+
+        
     </ul>
 <li>
           
@@ -192,6 +228,10 @@
     <li>Order Accuracy</li>
     <li class="wy-breadcrumbs-aside">
       
+        
+          <a href="https://github.com/ChowHub/phonsim-experiments" class="icon icon-github"> Edit on GitHub</a>
+        
+      
     </li>
   </ul>
   <hr/>
@@ -200,10 +240,21 @@
             <div class="section">
               
                 <h1 id="multilevel-model-of-accuracy">Multilevel model of accuracy</h1>
-<pre><code class="r">debug = FALSE
-library(knitr)
-opts_chunk$set(comment='', fig.width=14, fig.height=6.5)
-opts_knit$set(self.contained=TRUE)
+<p>Params:</p>
+<pre><code class="r">params
+</code></pre>
+
+<pre><code>$dv_var
+[1] &quot;ACC.order&quot;
+
+$nsim
+[1] 10000
+
+$plot_ymax
+[1] 1
+
+$plot_yshift
+[1] 0
 </code></pre>
 
 <p>Read in data</p>
@@ -213,9 +264,8 @@ all.dat = read.csv('data/1_scored.csv')
 all.dat$Subject = factor(all.dat$Subject)
 all.dat$dv = all.dat[,DV_VAR]
 
-# Omit task, because Brooke thought effects were originally in other direction
-# it's not clear if the data were preprocessed incorrectly (and raw data is
-# not available)
+# Remove regular ospan, which has substantially lower accuracy 
+# due to verification requirements
 dat = subset(all.dat, !task %in% 'Ospan.reg')
 
 # Mark high and low interference conditions
@@ -300,6 +350,42 @@ intrfrnch:1 -0.427     0.000
 intrfrncl:1  0.000    -0.427     0.000     
 </code></pre>
 
+<h3 id="same-model-contrast-coded-for-interference-benefit">Same model contrast coded for interference benefit</h3>
+<pre><code class="r">fit.mlm.int = lmer(dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm.int)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -507.1
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.80132 -0.47517  0.07994  0.51863  1.67146 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ task:Subject (Intercept) 0.011410 0.10682 
+ task         (Intercept) 0.000000 0.00000 
+ Residual                 0.006525 0.08078 
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+                           Estimate Std. Error t value
+trialtypeD                  0.78811    0.01265   62.28
+trialtypeS                  0.78741    0.01265   62.22
+trialtypeD:interferencelow  0.06736    0.02023    3.33
+trialtypeS:interferencelow  0.03890    0.02023    1.92
+
+Correlation of Fixed Effects:
+            trltyD trltyS trltD:
+trialtypeS   0.636              
+trltypD:ntr -0.626 -0.398       
+trltypS:ntr -0.398 -0.626  0.636
+</code></pre>
+
 <h3 id="why-is-task-variance-estimated-to-be-0">Why is task variance estimated to be 0?</h3>
 <p>Sanity check, injecting noise at task level. Note the accurate task variance estimates.</p>
 <pre><code class="r">tmp_dat = ddply(dat, .(task), transform, dv = dv + rnorm(1, sd=.1))
@@ -311,31 +397,31 @@ summary(fit.mlm2)
 Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
    Data: tmp_dat
 
-REML criterion at convergence: -486.8
+REML criterion at convergence: -484.8
 
 Scaled residuals: 
-     Min       1Q   Median       3Q      Max 
--2.70886 -0.45623  0.07113  0.50360  1.71533 
+    Min      1Q  Median      3Q     Max 
+-2.7572 -0.4626  0.0723  0.4978  1.6731 
 
 Random effects:
  Groups       Name        Variance Std.Dev.
- task:Subject (Intercept) 0.011625 0.10782 
- task         (Intercept) 0.004879 0.06985 
+ task:Subject (Intercept) 0.011633 0.10786 
+ task         (Intercept) 0.006169 0.07855 
  Residual                 0.006525 0.08078 
 Number of obs: 368, groups:  task:Subject, 184; task, 12
 
 Fixed effects:
            Estimate Std. Error t value
-condhigh D  0.80989    0.02795   28.98
-condhigh S  0.80919    0.02795   28.95
-condlow D   0.91337    0.03838   23.80
-condlow S   0.88422    0.03838   23.04
+condhigh D  0.76056    0.03070   24.77
+condhigh S  0.75987    0.03070   24.75
+condlow D   0.90806    0.04237   21.43
+condlow S   0.87891    0.04237   20.74
 
 Correlation of Fixed Effects:
            cndhgD cndhgS cndlwD
-condhigh S 0.925               
+condhigh S 0.938               
 condlow D  0.000  0.000        
-condlow S  0.000  0.000  0.938 
+condlow S  0.000  0.000  0.950 
 </code></pre>
 
 <p>Another Sanity check, looking at task variance from ANOVA standpoint.
@@ -374,26 +460,26 @@ negative eigenvalues
 </code></pre>
 
 <pre><code>                                 2.5 %     97.5 %
-sd_(Intercept)|task:Subject 0.09095669 0.12060243
-sd_(Intercept)|task         0.00000000 0.03244178
-sigma                       0.07249809 0.08901738
-condhigh D                  0.76324545 0.81326121
-condhigh S                  0.76304417 0.81244223
-condlow D                   0.82464215 0.88673700
-condlow S                   0.79528484 0.85852567
+sd_(Intercept)|task:Subject 0.09143731 0.12031009
+sd_(Intercept)|task         0.00000000 0.03181937
+sigma                       0.07240859 0.08893610
+condhigh D                  0.76407583 0.81299562
+condhigh S                  0.76267409 0.81264585
+condlow D                   0.82404954 0.88601898
+condlow S                   0.79537988 0.85739664
 </code></pre>
 
 <pre><code>Computing bootstrap confidence intervals ...
 </code></pre>
 
 <pre><code>                                  2.5 %       97.5 %
-sd_(Intercept)|task:Subject  0.09126986  0.120478245
-sd_(Intercept)|task          0.00000000  0.032597041
-sigma                        0.07275995  0.089244320
-interferencehigh             0.76379383  0.813402617
-interferencelow              0.82424649  0.886050184
-interferencehigh:trialtype1 -0.02266563  0.019991362
-interferencelow:trialtype1  -0.05562146 -0.002703589
+sd_(Intercept)|task:Subject  0.09118092  0.120583507
+sd_(Intercept)|task          0.00000000  0.031924364
+sigma                        0.07233749  0.089033429
+interferencehigh             0.76275996  0.813088374
+interferencelow              0.82456399  0.886600881
+interferencehigh:trialtype1 -0.02170043  0.020573120
+interferencelow:trialtype1  -0.05521316 -0.002708214
 </code></pre>
 
 <h3 id="cohens-d">Cohen's d</h3>
@@ -408,7 +494,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.1935,  0.1804 )   (-0.1932,  0.1819 )  
+95%   (-0.1939,  0.1826 )   (-0.1960,  0.1811 )  
 Calculations and Intervals on Original Scale
 
 $d_low
@@ -420,7 +506,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.4866, -0.0213 )   (-0.4911, -0.0260 )  
+95%   (-0.4929, -0.0162 )   (-0.4969, -0.0176 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_high
@@ -432,7 +518,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.1410,  0.1316 )   (-0.1413,  0.1328 )  
+95%   (-0.1417,  0.1335 )   (-0.1430,  0.1327 )  
 Calculations and Intervals on Original Scale
 
 $d_sub_low
@@ -444,7 +530,7 @@ boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index =
 
 Intervals : 
 Level      Normal             Percentile     
-95%   (-0.3548, -0.0160 )   (-0.3577, -0.0191 )  
+95%   (-0.3592, -0.0124 )   (-0.3597, -0.0126 )  
 Calculations and Intervals on Original Scale
 </code></pre>
 
@@ -469,7 +555,7 @@ ymax not defined: adjusting position using y instead
 <hr />
 <p>title: "1_mlm.R"
 author: "machow"
-date: "Sat Jan  2 18:53:11 2016"</p>
+date: "Wed Jan 13 12:04:19 2016"</p>
 <hr />
               
             </div>
@@ -477,6 +563,8 @@ date: "Sat Jan  2 18:53:11 2016"</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../ACC.pli/" class="btn btn-neutral float-right" title="Prior List Intrusions"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../ACC.item/" class="btn btn-neutral" title="Item Accuracy"><span class="icon icon-circle-arrow-left"></span> Previous</a>
@@ -504,9 +592,13 @@ date: "Sat Jan  2 18:53:11 2016"</p>
 <div class="rst-versions" role="note" style="cursor: pointer">
     <span class="rst-current-version" data-toggle="rst-current-version">
       
+          <a href="https://github.com/ChowHub/phonsim-experiments" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
       
         <span><a href="../ACC.item/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
+      
+        <span style="margin-left: 15px"><a href="../ACC.pli/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

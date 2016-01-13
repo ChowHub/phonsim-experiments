@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Order Accuracy - Phonological Similarity in Complex Span</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Order Accuracy";
+    var mkdocs_page_url = "/mlm/ACC.order/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+  <script src="../../theme_tweak/js/theme.js"></script>
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Phonological Similarity in Complex Span</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Experiments</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e1/">E1 (ospan)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e2/">E2 (shuffled)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e3/">E3 (pooled)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e4/">E4 (names)</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Multilevel Models</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.ser/">Serial Accuracy</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.item/">Item Accuracy</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Order Accuracy</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#multilevel-model-of-accuracy">Multilevel model of accuracy</a></li>
+                
+                    <li><a class="toctree-l4" href="#models">Models</a></li>
+                
+                    <li><a class="toctree-l4" href="#confidence-intervals">Confidence Intervals</a></li>
+                
+                    <li><a class="toctree-l4" href="#plotting">Plotting</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Phonological Similarity in Complex Span</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Multilevel Models &raquo;</li>
+        
+      
+    
+    <li>Order Accuracy</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="multilevel-model-of-accuracy">Multilevel model of accuracy</h1>
+<pre><code class="r">debug = FALSE
+library(knitr)
+opts_chunk$set(comment='', fig.width=14, fig.height=6.5)
+opts_knit$set(self.contained=TRUE)
+</code></pre>
+
+<p>Read in data</p>
+<pre><code class="r">DV_VAR = params$dv_var
+
+all.dat = read.csv('data/1_scored.csv')
+all.dat$Subject = factor(all.dat$Subject)
+all.dat$dv = all.dat[,DV_VAR]
+
+# Omit task, because Brooke thought effects were originally in other direction
+# it's not clear if the data were preprocessed incorrectly (and raw data is
+# not available)
+dat = subset(all.dat, !task %in% 'Ospan.reg')
+
+# Mark high and low interference conditions
+low_int = c('spOspan.noVer', 'Ospan.scram.noVer', 'Rspan.names.long', 'Rspan.names.short', 'Ospan.reg')
+dat$interference = ifelse(dat$task %in% low_int, 'low', 'high')
+</code></pre>
+
+<h2 id="models">Models</h2>
+<pre><code class="r">dat$cond = paste(dat$interference, dat$trialtype)
+contrasts(dat$trialtype) &lt;- c(0,1)                # similarity increment
+</code></pre>
+
+<h3 id="model-with-recall-predictions-for-each-interferencetrialtype-explicit">Model with recall predictions for each interference:trialtype explicit</h3>
+<pre><code class="r">fit.mlm = lmer(dv ~ 0 + cond + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -507.1
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.80132 -0.47517  0.07994  0.51863  1.67146 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ task:Subject (Intercept) 0.011410 0.10682 
+ task         (Intercept) 0.000000 0.00000 
+ Residual                 0.006525 0.08078 
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+           Estimate Std. Error t value
+condhigh D  0.78811    0.01265   62.28
+condhigh S  0.78741    0.01265   62.22
+condlow D   0.85547    0.01578   54.20
+condlow S   0.82632    0.01578   52.36
+
+Correlation of Fixed Effects:
+           cndhgD cndhgS cndlwD
+condhigh S 0.636               
+condlow D  0.000  0.000        
+condlow S  0.000  0.000  0.636 
+</code></pre>
+
+<h3 id="same-model-contrast-coded-for-similarity-benefit">Same model contrast coded for similarity benefit</h3>
+<pre><code class="r">fit.mlm.con = lmer(dv ~ 0 + interference/trialtype + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm.con)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + interference/trialtype + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -507.1
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.80132 -0.47517  0.07994  0.51863  1.67146 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ task:Subject (Intercept) 0.011410 0.10682 
+ task         (Intercept) 0.000000 0.00000 
+ Residual                 0.006525 0.08078 
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+                             Estimate Std. Error t value
+interferencehigh             0.788111   0.012655   62.28
+interferencelow              0.855470   0.015783   54.20
+interferencehigh:trialtype1 -0.000697   0.010795   -0.06
+interferencelow:trialtype1  -0.029153   0.013463   -2.17
+
+Correlation of Fixed Effects:
+            intrfrnch intrfrncl intrfrnch:1
+interfrnclw  0.000                         
+intrfrnch:1 -0.427     0.000               
+intrfrncl:1  0.000    -0.427     0.000     
+</code></pre>
+
+<h3 id="why-is-task-variance-estimated-to-be-0">Why is task variance estimated to be 0?</h3>
+<p>Sanity check, injecting noise at task level. Note the accurate task variance estimates.</p>
+<pre><code class="r">tmp_dat = ddply(dat, .(task), transform, dv = dv + rnorm(1, sd=.1))
+fit.mlm2 = lmer(dv ~ 0 + cond + (1 | task:Subject) + (1 | task), data=tmp_dat)
+summary(fit.mlm2)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
+   Data: tmp_dat
+
+REML criterion at convergence: -479.3
+
+Scaled residuals: 
+     Min       1Q   Median       3Q      Max 
+-2.77138 -0.45178  0.07409  0.51153  1.72062 
+
+Random effects:
+ Groups       Name        Variance Std.Dev.
+ task:Subject (Intercept) 0.011624 0.10781 
+ task         (Intercept) 0.011577 0.10760 
+ Residual                 0.006525 0.08078 
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+           Estimate Std. Error t value
+condhigh D  0.77871    0.04024   19.35
+condhigh S  0.77802    0.04024   19.33
+condlow D   0.91367    0.05610   16.29
+condlow S   0.88452    0.05610   15.77
+
+Correlation of Fixed Effects:
+           cndhgD cndhgS cndlwD
+condhigh S 0.964               
+condlow D  0.000  0.000        
+condlow S  0.000  0.000  0.971 
+</code></pre>
+
+<p>Another Sanity check, looking at task variance from ANOVA standpoint.
+Note that the F-value for task is 1 (no between task var beyond subject var)</p>
+<pre><code class="r">fit.aov = aov(dv ~ interference + task + Error(task:Subject), data=dat)
+</code></pre>
+
+<pre><code>Warning in aov(dv ~ interference + task + Error(task:Subject), data =
+dat): Error() model is singular
+</code></pre>
+
+<pre><code class="r">summary(fit.aov)
+</code></pre>
+
+<pre><code>
+Error: task:Subject
+              Df Sum Sq Mean Sq F value  Pr(&gt;F)   
+interference   1  0.247 0.24744   8.316 0.00443 **
+task          10  0.223 0.02231   0.750 0.67679   
+Residuals    172  5.118 0.02975                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Error: Within
+           Df Sum Sq  Mean Sq F value Pr(&gt;F)
+Residuals 184  1.218 0.006621               
+</code></pre>
+
+<h2 id="confidence-intervals">Confidence Intervals</h2>
+<pre><code>Computing bootstrap confidence intervals ...
+</code></pre>
+
+<pre><code>                                 2.5 %     97.5 %
+sd_(Intercept)|task:Subject 0.09100275 0.12028311
+sd_(Intercept)|task         0.00000000 0.03233799
+sigma                       0.07247668 0.08920689
+condhigh D                  0.76279994 0.81273804
+condhigh S                  0.76217617 0.81278560
+condlow D                   0.82463146 0.88620066
+condlow S                   0.79517730 0.85690736
+</code></pre>
+
+<pre><code>Computing bootstrap confidence intervals ...
+</code></pre>
+
+<pre><code>                                  2.5 %       97.5 %
+sd_(Intercept)|task:Subject  0.09128229  0.120688905
+sd_(Intercept)|task          0.00000000  0.031997912
+sigma                        0.07232912  0.088864827
+interferencehigh             0.76337332  0.812865964
+interferencelow              0.82424815  0.886133118
+interferencehigh:trialtype1 -0.02166655  0.020438600
+interferencelow:trialtype1  -0.05577530 -0.002616637
+</code></pre>
+
+<h3 id="cohens-d">Cohen's d</h3>
+<p>Here, I divided group differences by either the residual variance,
+or between-subject variance +  residual variance.</p>
+<pre><code>$d_high
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-0.1897,  0.1790 )   (-0.1895,  0.1783 )  
+Calculations and Intervals on Original Scale
+
+$d_low
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-0.4887, -0.0203 )   (-0.4946, -0.0226 )  
+Calculations and Intervals on Original Scale
+
+$d_sub_high
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-0.1386,  0.1307 )   (-0.1385,  0.1297 )  
+Calculations and Intervals on Original Scale
+
+$d_sub_low
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-0.3563, -0.0153 )   (-0.3606, -0.0167 )  
+Calculations and Intervals on Original Scale
+</code></pre>
+
+<h2 id="plotting">Plotting</h2>
+<p>Means and Standard Errors</p>
+<pre><code>The following `from` values were not present in `x`: Ospan.reg
+</code></pre>
+
+<pre><code class="r">p + 
+  geom_rect(aes(x=NULL, y=NULL, shape=NULL,xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),
+            color='black', fill='white', data=group_annot) + 
+  geom_text(aes(shape=NULL, color=NULL, x=text.x, y=text.y, label=label), 
+            show_guide=FALSE, data=group_annot) + pub_theme + colors + shapes
+</code></pre>
+
+<pre><code>Scale for 'colour' is already present. Adding another scale for 'colour', which will replace the existing scale.
+Scale for 'shape' is already present. Adding another scale for 'shape', which will replace the existing scale.
+ymax not defined: adjusting position using y instead
+</code></pre>
+
+<p><img alt="" src="../ACC.order_files/figure-html/plots-1.png" /> </p>
+<hr />
+<p>title: "1_mlm.R"
+author: "machow"
+date: "Mon Nov 23 16:33:26 2015"</p>
+<hr />
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../ACC.item/" class="btn btn-neutral" title="Item Accuracy"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../ACC.item/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+
+</body>
+</html>

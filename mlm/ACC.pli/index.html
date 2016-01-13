@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Prior List Intrusions - Phonological Similarity in Complex Span</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  <link href="../../site/css/highlight.css" rel="stylesheet">
+  <link href="../../site/css/theme.css" rel="stylesheet">
+  <link href="../../site/css/theme_extra.css" rel="stylesheet">
+  <link href="../../site/site/css/highlight.css" rel="stylesheet">
+  <link href="../../site/site/css/theme.css" rel="stylesheet">
+  <link href="../../site/site/css/theme_extra.css" rel="stylesheet">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Prior List Intrusions";
+    var mkdocs_page_url = "/mlm/ACC.pli/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+  <script src="../../site/js/highlight.pack.js"></script>
+  <script src="../../site/js/jquery-2.1.1.min.js"></script>
+  <script src="../../site/js/modernizr-2.8.3.min.js"></script>
+  <script src="../../site/js/theme.js"></script>
+  <script src="../../site/mkdocs/js/lunr-0.5.7.min.js"></script>
+  <script src="../../site/mkdocs/js/mustache.min.js"></script>
+  <script src="../../site/mkdocs/js/require.js"></script>
+  <script src="../../site/mkdocs/js/search.js"></script>
+  <script src="../../site/mkdocs/js/text.js"></script>
+  <script src="../../site/site/js/highlight.pack.js"></script>
+  <script src="../../site/site/js/jquery-2.1.1.min.js"></script>
+  <script src="../../site/site/js/modernizr-2.8.3.min.js"></script>
+  <script src="../../site/site/js/theme.js"></script>
+  <script src="../../site/site/mkdocs/js/lunr-0.5.7.min.js"></script>
+  <script src="../../site/site/mkdocs/js/mustache.min.js"></script>
+  <script src="../../site/site/mkdocs/js/require.js"></script>
+  <script src="../../site/site/mkdocs/js/search.js"></script>
+  <script src="../../site/site/mkdocs/js/text.js"></script>
+  <script src="../../site/theme_tweak/js/theme.js"></script>
+  <script src="../../theme_tweak/js/theme.js"></script>
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Phonological Similarity in Complex Span</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Experiments</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e1/">E1 (ospan)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e2/">E2 (shuffled)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e3/">E3 (pooled)</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../exps/e4/">E4 (names)</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Multilevel Models</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.ser/">Serial Accuracy</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.item/">Item Accuracy</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.order/">Order Accuracy</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Prior List Intrusions</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#multilevel-model-of-accuracy">Multilevel model of accuracy</a></li>
+                
+                    <li><a class="toctree-l4" href="#models">Models</a></li>
+                
+                    <li><a class="toctree-l4" href="#confidence-intervals">Confidence Intervals</a></li>
+                
+                    <li><a class="toctree-l4" href="#plotting">Plotting</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.worderr/">Other Intrusions</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../ACC.blank/">Omissions</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Misc</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../misc/misc_distractor_intrusions/">Distractor Intrusions</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Phonological Similarity in Complex Span</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>Multilevel Models &raquo;</li>
+        
+      
+    
+    <li>Prior List Intrusions</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/ChowHub/phonsim-experiments" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="multilevel-model-of-accuracy">Multilevel model of accuracy</h1>
+<p>Params:</p>
+<pre><code class="r">params
+</code></pre>
+
+<pre><code>$dv_var
+[1] &quot;ACC.pli&quot;
+
+$nsim
+[1] 10000
+
+$plot_ymax
+[1] 0.04
+
+$plot_yshift
+[1] -0.006
+</code></pre>
+
+<p>Read in data</p>
+<pre><code class="r">DV_VAR = params$dv_var
+
+all.dat = read.csv('data/1_scored.csv')
+all.dat$Subject = factor(all.dat$Subject)
+all.dat$dv = all.dat[,DV_VAR]
+
+# Remove regular ospan, which has substantially lower accuracy 
+# due to verification requirements
+dat = subset(all.dat, !task %in% 'Ospan.reg')
+
+# Mark high and low interference conditions
+low_int = c('spOspan.noVer', 'Ospan.scram.noVer', 'Rspan.names.long', 'Rspan.names.short', 'Ospan.reg')
+dat$interference = ifelse(dat$task %in% low_int, 'low', 'high')
+</code></pre>
+
+<h2 id="models">Models</h2>
+<pre><code class="r">dat$cond = paste(dat$interference, dat$trialtype)
+contrasts(dat$trialtype) &lt;- c(0,1)                # similarity increment
+</code></pre>
+
+<h3 id="model-with-recall-predictions-for-each-interferencetrialtype-explicit">Model with recall predictions for each interference:trialtype explicit</h3>
+<pre><code class="r">fit.mlm = lmer(dv ~ 0 + cond + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -2157.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.3324 -0.6772  0.0022  0.0164  6.1485 
+
+Random effects:
+ Groups       Name        Variance  Std.Dev.
+ task:Subject (Intercept) 8.103e-06 0.002847
+ task         (Intercept) 0.000e+00 0.000000
+ Residual                 1.408e-04 0.011866
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+            Estimate Std. Error t value
+condhigh D 0.0157077  0.0011531  13.623
+condhigh S 0.0008267  0.0011531   0.717
+condlow D  0.0084877  0.0014381   5.902
+condlow S  0.0002572  0.0014381   0.179
+
+Correlation of Fixed Effects:
+           cndhgD cndhgS cndlwD
+condhigh S 0.054               
+condlow D  0.000  0.000        
+condlow S  0.000  0.000  0.054 
+</code></pre>
+
+<h3 id="same-model-contrast-coded-for-similarity-benefit">Same model contrast coded for similarity benefit</h3>
+<pre><code class="r">fit.mlm.con = lmer(dv ~ 0 + interference/trialtype + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm.con)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + interference/trialtype + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -2157.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.3324 -0.6772  0.0022  0.0164  6.1485 
+
+Random effects:
+ Groups       Name        Variance  Std.Dev. 
+ task:Subject (Intercept) 8.103e-06 2.847e-03
+ task         (Intercept) 1.286e-18 1.134e-09
+ Residual                 1.408e-04 1.187e-02
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+                             Estimate Std. Error t value
+interferencehigh             0.015708   0.001153  13.623
+interferencelow              0.008488   0.001438   5.902
+interferencehigh:trialtype1 -0.014881   0.001586  -9.385
+interferencelow:trialtype1  -0.008230   0.001978  -4.162
+
+Correlation of Fixed Effects:
+            intrfrnch intrfrncl intrfrnch:1
+interfrnclw  0.000                         
+intrfrnch:1 -0.688     0.000               
+intrfrncl:1  0.000    -0.688     0.000     
+</code></pre>
+
+<h3 id="same-model-contrast-coded-for-interference-benefit">Same model contrast coded for interference benefit</h3>
+<pre><code class="r">fit.mlm.int = lmer(dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task), data=dat)
+summary(fit.mlm.int)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + trialtype/interference + (1 | task:Subject) + (1 | task)
+   Data: dat
+
+REML criterion at convergence: -2157.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.3324 -0.6772  0.0022  0.0164  6.1485 
+
+Random effects:
+ Groups       Name        Variance  Std.Dev.
+ task:Subject (Intercept) 8.103e-06 0.002847
+ task         (Intercept) 0.000e+00 0.000000
+ Residual                 1.408e-04 0.011866
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+                             Estimate Std. Error t value
+trialtypeD                  0.0157077  0.0011531  13.623
+trialtypeS                  0.0008267  0.0011531   0.717
+trialtypeD:interferencelow -0.0072200  0.0018433  -3.917
+trialtypeS:interferencelow -0.0005695  0.0018433  -0.309
+
+Correlation of Fixed Effects:
+            trltyD trltyS trltD:
+trialtypeS   0.054              
+trltypD:ntr -0.626 -0.034       
+trltypS:ntr -0.034 -0.626  0.054
+</code></pre>
+
+<h3 id="why-is-task-variance-estimated-to-be-0">Why is task variance estimated to be 0?</h3>
+<p>Sanity check, injecting noise at task level. Note the accurate task variance estimates.</p>
+<pre><code class="r">tmp_dat = ddply(dat, .(task), transform, dv = dv + rnorm(1, sd=.1))
+fit.mlm2 = lmer(dv ~ 0 + cond + (1 | task:Subject) + (1 | task), data=tmp_dat)
+summary(fit.mlm2)
+</code></pre>
+
+<pre><code>Linear mixed model fit by REML ['lmerMod']
+Formula: dv ~ 0 + cond + (1 | task:Subject) + (1 | task)
+   Data: tmp_dat
+
+REML criterion at convergence: -2090.2
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-1.6073 -0.5913 -0.0478  0.1259  6.0911 
+
+Random effects:
+ Groups       Name        Variance  Std.Dev.
+ task:Subject (Intercept) 7.608e-06 0.002758
+ task         (Intercept) 4.848e-03 0.069625
+ Residual                 1.408e-04 0.011866
+Number of obs: 368, groups:  task:Subject, 184; task, 12
+
+Fixed effects:
+            Estimate Std. Error t value
+condhigh D  0.007134   0.024644   0.290
+condhigh S -0.007747   0.024644  -0.314
+condlow D  -0.052182   0.034842  -1.498
+condlow S  -0.060412   0.034842  -1.734
+
+Correlation of Fixed Effects:
+           cndhgD cndhgS cndlwD
+condhigh S 0.998               
+condlow D  0.000  0.000        
+condlow S  0.000  0.000  0.998 
+</code></pre>
+
+<p>Another Sanity check, looking at task variance from ANOVA standpoint.
+Note that the F-value for task is 1 (no between task var beyond subject var)</p>
+<pre><code class="r">fit.aov = aov(dv ~ interference + task + Error(task:Subject), data=dat)
+</code></pre>
+
+<pre><code>Warning in aov(dv ~ interference + task + Error(task:Subject), data =
+dat): Error() model is singular
+</code></pre>
+
+<pre><code class="r">summary(fit.aov)
+</code></pre>
+
+<pre><code>
+Error: task:Subject
+              Df   Sum Sq   Mean Sq F value  Pr(&gt;F)   
+interference   1 0.001330 0.0013296   8.522 0.00398 **
+task          10 0.001741 0.0001741   1.116 0.35295   
+Residuals    172 0.026836 0.0001560                   
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Error: Within
+           Df  Sum Sq   Mean Sq F value Pr(&gt;F)
+Residuals 184 0.04047 0.0002199               
+</code></pre>
+
+<h2 id="confidence-intervals">Confidence Intervals</h2>
+<pre><code>Computing bootstrap confidence intervals ...
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>                                   2.5 %      97.5 %
+sd_(Intercept)|task:Subject  0.000000000 0.005372848
+sd_(Intercept)|task          0.000000000 0.002296895
+sigma                        0.010654498 0.012857745
+condhigh D                   0.013512107 0.017953509
+condhigh S                  -0.001439155 0.003081612
+condlow D                    0.005676607 0.011272283
+condlow S                   -0.002592041 0.002964397
+</code></pre>
+
+<pre><code>Computing bootstrap confidence intervals ...
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 1 from bobyqa: bobyqa --
+maximum number of function evaluations exceeded
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>                                   2.5 %       97.5 %
+sd_(Intercept)|task:Subject  0.000000000  0.005414811
+sd_(Intercept)|task          0.000000000  0.002338520
+sigma                        0.010634333  0.012819305
+interferencehigh             0.013443174  0.017981917
+interferencelow              0.005790776  0.011298175
+interferencehigh:trialtype1 -0.017947443 -0.011723088
+interferencelow:trialtype1  -0.012161966 -0.004442335
+</code></pre>
+
+<h3 id="cohens-d">Cohen's d</h3>
+<p>Here, I divided group differences by either the residual variance,
+or between-subject variance +  residual variance.</p>
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in checkConv(attr(opt, &quot;derivs&quot;), opt$par, ctrl =
+control$checkConv, : Model failed to converge: degenerate Hessian with 1
+negative eigenvalues
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>Warning in optwrap(object@optinfo$optimizer, ff, x0, lower = lower,
+control = control$optCtrl, : convergence code 3 from bobyqa: bobyqa -- a
+trust region step failed to reduce q
+</code></pre>
+
+<pre><code>$d_high
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-1.0853, -0.6714 )   (-1.1124, -0.6969 )  
+Calculations and Intervals on Original Scale
+
+$d_low
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-0.7233, -0.2485 )   (-0.7334, -0.2636 )  
+Calculations and Intervals on Original Scale
+
+$d_sub_high
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-1.0664, -0.6705 )   (-1.0863, -0.6884 )  
+Calculations and Intervals on Original Scale
+
+$d_sub_low
+BOOTSTRAP CONFIDENCE INTERVAL CALCULATIONS
+Based on 10000 bootstrap replicates
+
+CALL : 
+boot.ci(boot.out = booted, type = c(&quot;norm&quot;, &quot;perc&quot;), index = ii)
+
+Intervals : 
+Level      Normal             Percentile     
+95%   (-0.7125, -0.2483 )   (-0.7202, -0.2604 )  
+Calculations and Intervals on Original Scale
+</code></pre>
+
+<h2 id="plotting">Plotting</h2>
+<p>Means and Standard Errors</p>
+<pre><code>The following `from` values were not present in `x`: Ospan.reg
+</code></pre>
+
+<pre><code class="r">p + 
+  geom_rect(aes(x=NULL, y=NULL, shape=NULL,xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),
+            color='black', fill='white', data=group_annot) + 
+  geom_text(aes(shape=NULL, color=NULL, x=text.x, y=text.y, label=label), 
+            show_guide=FALSE, data=group_annot) + pub_theme + colors + shapes
+</code></pre>
+
+<pre><code>Scale for 'colour' is already present. Adding another scale for 'colour', which will replace the existing scale.
+Scale for 'shape' is already present. Adding another scale for 'shape', which will replace the existing scale.
+ymax not defined: adjusting position using y instead
+</code></pre>
+
+<p><img alt="" src="../ACC.pli_files/figure-html/plots-1.png" /> </p>
+<hr />
+<p>title: "1_mlm.R"
+author: "machow"
+date: "Wed Jan 13 12:31:53 2016"</p>
+<hr />
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../ACC.worderr/" class="btn btn-neutral float-right" title="Other Intrusions"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../ACC.order/" class="btn btn-neutral" title="Order Accuracy"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/ChowHub/phonsim-experiments" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../ACC.order/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../ACC.worderr/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
