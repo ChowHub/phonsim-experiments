@@ -10,6 +10,7 @@
 #'  plot_yshift: 0
 #' ---
 
+params = list(dv_var= 'ACC.ser', plot_ymax= 1, plot_yshift = 0)
 #+ config, echo=FALSE
 debug = FALSE
 library(knitr)
@@ -123,19 +124,19 @@ fit.mean$sim = relevel(fit.mean$sim, ref='S')
 
 # Plot All Conds
 source('scripts/helper.r')
-dodge = position_dodge(height=0, width=.1)
+dodge = position_dodge(width=.1)
 meanse$task = revalue(meanse$task, mlm_conds)
 meanse$task = factor(meanse$task, levels=mlm_conds)
 p = ggplot(meanse, aes(task, m, color=trialtype, shape=trialtype)) + 
-  geom_hline(aes(yintercept=m.pred, linetype=cond, color=sim), alpha = .5, data=fit.mean) +
-  geom_point(position=dodge) +# geom_errorbar(aes(ymin=m-se, ymax=m+se), width=.1, position=dodge) +
+  geom_hline(aes(yintercept=m.pred, linetype=cond, color=sim), alpha = .5, show.legend=FALSE, data=fit.mean) +
+  geom_point(position=dodge) + geom_errorbar(aes(ymin=m-se, ymax=m+se), width=.05, position=dodge) +
   scale_shape_manual(values=c(17,16)) + 
   scale_color_brewer(palette='Dark2') + scale_y_continuous(breaks=seq(0,1,.2), limits=c(0 + params$plot_yshift ,params$plot_ymax), expand=c(0,0)) +
   expand_limits(x=0,y=0)+
-  theme_bw() + ggtitle(DV_VAR)
+  theme_bw(base_size=40) + ggtitle(DV_VAR)
 
 # make rectangles indicating high or low interference
-YMAX = params$plot_ymax / 10 + params$plot_yshift
+YMAX = params$plot_ymax / 30 + params$plot_yshift
 YMIN = 0 + params$plot_yshift
 group_annot = data.frame(xmin = c(0, 4.5), xmax = c(4.5, 12.6), 
                          ymin = YMIN,   ymax = YMAX)
@@ -152,5 +153,7 @@ p +
   geom_rect(aes(x=NULL, y=NULL, shape=NULL,xmin=xmin, xmax=xmax, ymin=ymin, ymax=ymax),
             color='black', fill='white', data=group_annot) + 
   geom_text(aes(shape=NULL, color=NULL, x=text.x, y=text.y, label=label), 
-            show_guide=FALSE, data=group_annot) + pub_theme + colors + shapes
+            show.legend=FALSE, data=group_annot, size=5) + pub_theme + colors + shapes +
+  ylab('Serial Recall Accuracy') + xlab('Task') + ggtitle("")
 
+ggsave('test.png',width = 12*1.25, height=5.6*1.25, units='in')

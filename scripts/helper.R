@@ -52,7 +52,7 @@ xlabels   = c('Ospan.reg' = 'Ospan Task',
               'Rspan.names.long' = 'Name Length',
               'R.pool350' = 'Pool Size')
 
-h_dodge = position_dodge(width=.05, height=0)
+h_dodge = position_dodge(width=.05)
 p.summary = ggplot(NULL, aes(task, y, ymin=ymin, ymax=ymax, group=trialtype, color=trialtype, shape=trialtype)) +
   geom_point(position=h_dodge) +
   geom_line(position=h_dodge, lty=2) +

@@ -16,7 +16,7 @@ conds:  conditions to use (done using mustache syntax)
 ```{r}
 library(knitr)
 opts_knit$set(self.contained=TRUE, root.dir="../")
-opts_chunk$set(fig.cap="", error=TRUE, cache=FALSE, echo=FALSE)#, fig.width=5, fig.height=3.5)
+opts_chunk$set(fig.cap="", error=TRUE, cache=FALSE, echo=FALSE, fig.width=5, fig.height=3.5)
 ```
 
 ```{r, message=FALSE}
