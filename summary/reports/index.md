@@ -1,6 +1,4 @@
 Phonological Similarity in Complex Span
 =======================================
 
-OSF page
-
-Manuscript
+[OSF page](https://osf.io/br854)
